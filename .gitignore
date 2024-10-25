@@ -1,0 +1,10 @@
+.idea
+
+members/.next
+members/node_modules
+members/.env
+
+main/coverage
+main/node_modules
+main/.next
+main/.env

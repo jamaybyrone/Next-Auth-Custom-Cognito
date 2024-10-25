@@ -1,0 +1,47 @@
+{
+  "name": "members",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "dev:debug": "cross-env NODE_OPTIONS='--inspect' next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "prettier": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
+  },
+  "dependencies": {
+    "@emotion/cache": "11.13.1",
+    "@emotion/react": "11.13.3",
+    "@emotion/styled": "11.13.0",
+    "@mui/icons-material": "6.1.4",
+    "@mui/material": "6.1.4",
+    "@mui/material-nextjs": "6.1.4",
+    "@types/js-cookie": "^3.0.6",
+    "@types/uuid": "10.0.0",
+    "@types/node": "22.7.7",
+    "amazon-cognito-identity-js": "6.3.12",
+    "formik": "2.4.6",
+    "isomorphic-dompurify": "2.16.0",
+    "js-cookie": "3.0.5",
+    "next": "14.2.15",
+    "next-auth": "4.24.8",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "uuid": "10.0.0",
+    "yup": "1.4.0",
+    "zod": "3.23.8",
+    "zustand": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.11",
+    "@types/react-dom": "18.3.1",
+    "eslint": "8.56.0",
+    "eslint-config-next": "14.2.5",
+    "eslint-plugin-unused-imports": "3.0.0",
+    "prettier": "3.3.3",
+    "tsx": "4.19.1",
+    "typescript": "5.6.3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "next",
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true}],
+    "comma-style": ["error", "last"],
+    "computed-property-spacing": ["error", "never"],
+    "func-call-spacing":["error", "never"],
+    "no-trailing-spaces":["error", { "skipBlankLines": true}],
+    "no-whitespace-before-property":"error",
+    "curly": "error",
+    "quotes": ["error", "single"],
+    "unused-imports/no-unused-imports": "error",
+    "semi": ["error", "never"]
+  },
+  "plugins": ["unused-imports"]
+}

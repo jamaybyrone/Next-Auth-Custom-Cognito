@@ -21,7 +21,7 @@ async function resend(email: string) {
   return new Promise((resolve, reject) =>
     user.resendConfirmationCode((err, result) => {
       if (err) {
-        reject(err)
+        reject(Error(err.message))
       }
       resolve(result)
     })
@@ -29,7 +29,7 @@ async function resend(email: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

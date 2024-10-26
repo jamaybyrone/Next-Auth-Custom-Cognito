@@ -21,7 +21,7 @@ async function confirm(email: string, code: string) {
   return new Promise((resolve, reject) =>
     user.confirmRegistration(code, true, (err, result) => {
       if (err) {
-        reject(err)
+        reject(new Error(err.message))
       }
       resolve(result)
     })
@@ -29,7 +29,7 @@ async function confirm(email: string, code: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

@@ -23,7 +23,7 @@ async function registerCognito(
   return new Promise((resolve, reject) => {
     userPool.signUp(user, pass, attributes, attributes, (err, result) => {
       if (err) {
-        reject(err)
+        reject(new Error(err.message))
       } else {
         resolve(result)
       }
@@ -32,7 +32,7 @@ async function registerCognito(
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

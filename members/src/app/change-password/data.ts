@@ -14,19 +14,19 @@ export const data: pageMetaType = {
 }
 export const changePasswordYupSchema = yup.object({
   existingPassword: yup
-      .string()
-      .min(8, 'Existing password is too short - should be 8 chars minimum.')
-      .required('No password provided.'),
+    .string()
+    .min(8, 'Existing password is too short - should be 8 chars minimum.')
+    .required('No password provided.'),
   newPassword: yup
-      .string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.')
-      .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
+    .string()
+    .required('No password provided.')
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
 
   passwordConfirmation: yup
-      .string()
-      .required('No password provided.')
-      .oneOf([yup.ref('newPassword')!], 'Passwords must match')
+    .string()
+    .required('No password provided.')
+    .oneOf([yup.ref('newPassword')!], 'Passwords must match')
 })
 
 export const changePasswordFormikSchemaValues = {
@@ -68,4 +68,3 @@ export const passwordConfirmationField = {
   require: true,
   fullWidth: true
 }
-

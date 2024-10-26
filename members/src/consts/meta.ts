@@ -13,4 +13,3 @@ export const robots: Robots = {
     'max-snippet': -1
   }
 }
-

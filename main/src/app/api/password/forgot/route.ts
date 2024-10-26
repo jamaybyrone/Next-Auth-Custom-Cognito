@@ -19,13 +19,13 @@ async function forgotPassword(username: string) {
   return new Promise((resolve, reject) =>
     user.forgotPassword({
       onSuccess: (result) => resolve(result),
-      onFailure: (err) => reject(err)
+      onFailure: (err) => reject(Error(err.message))
     })
   )
 }
 
 export async function GET(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
 
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })

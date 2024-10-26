@@ -37,25 +37,24 @@ const theme = createTheme({
 export default function ThemeRegistry({
   children
 }: Readonly<{ children: ReactNode }>) {
-
   return (
-      <AppRouterCacheProvider>
-        <ThemeProvider theme={theme}>
-          <GlobalStyles
-            styles={{
-              body: {
-                margin: 0,
-                width: '100%',
-                height: '100%'
-              },
-              main: {
-                height: '100%'
-              }
-            }}
-          />
-          <CssBaseline />
-          {children}
-        </ThemeProvider>
-      </AppRouterCacheProvider>
+    <AppRouterCacheProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles
+          styles={{
+            body: {
+              margin: 0,
+              width: '100%',
+              height: '100%'
+            },
+            main: {
+              height: '100%'
+            }
+          }}
+        />
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </AppRouterCacheProvider>
   )
 }

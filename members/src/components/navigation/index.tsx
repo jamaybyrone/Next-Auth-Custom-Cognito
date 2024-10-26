@@ -40,72 +40,72 @@ export default function Navigation({ session }: Readonly<NavigaionProps>) {
   }
 
   return (
-      <Box sx={{ flexGrow: 1 }} component={'header'}>
-        <AppBar position="static">
-          <Toolbar>
-            <Box sx={{ flexGrow: 1 }}>
-              <Link href={'/'} sx={linkSX}>
-                Home
-              </Link>
-              {isLoggedIn && (
-                  <Link href={'/members'} sx={linkSX}>
-                    Members area
-                  </Link>
-              )}
-              {!isLoggedIn && (
-                  <>
-                    <Link href={'/sign-in'} sx={linkSX}>
-                      Sign in
-                    </Link>
-                    <Link href={'/sign-up'} sx={linkSX}>
-                      Sign up
-                    </Link>
-                  </>
-              )}
-            </Box>
+    <Box sx={{ flexGrow: 1 }} component={'header'}>
+      <AppBar position="static">
+        <Toolbar>
+          <Box sx={{ flexGrow: 1 }}>
+            <Link href={'/'} sx={linkSX}>
+              Home
+            </Link>
             {isLoggedIn && (
-                <div>
-                  <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      onClick={handleMenu}
-                      color="inherit"
-                  >
-                    {!hasProfile && <AccountCircle />}
-                    {hasProfile && (
-                        <Avatar alt={session.name} src={session.image} />
-                    )}
-                  </IconButton>
-                  <Menu
-                      id="menu-appbar"
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right'
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right'
-                      }}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                  >
-                    {!hasProfile && (
-                        <MenuItem>
-                          <Link href={'/members/change-password'}>
-                            Change password
-                          </Link>
-                        </MenuItem>
-                    )}
-                    <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-                  </Menu>
-                </div>
+              <Link href={'/members'} sx={linkSX}>
+                Members area
+              </Link>
             )}
-          </Toolbar>
-        </AppBar>
-      </Box>
+            {!isLoggedIn && (
+              <>
+                <Link href={'/sign-in'} sx={linkSX}>
+                  Sign in
+                </Link>
+                <Link href={'/sign-up'} sx={linkSX}>
+                  Sign up
+                </Link>
+              </>
+            )}
+          </Box>
+          {isLoggedIn && (
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                {!hasProfile && <AccountCircle />}
+                {hasProfile && (
+                  <Avatar alt={session.name} src={session.image} />
+                )}
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                {!hasProfile && (
+                  <MenuItem>
+                    <Link href={'/members/change-password'}>
+                      Change password
+                    </Link>
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+              </Menu>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
+    </Box>
   )
 }

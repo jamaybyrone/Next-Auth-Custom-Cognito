@@ -2,7 +2,7 @@ import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import { customAuth, customJWT, customSession } from '@/utils/auth'
+import { customAuth, customJWT } from '@/utils/auth'
 
 const {
   NEXTAUTH_SECRET,

@@ -7,14 +7,12 @@ export default class Log {
   readonly extend: string | undefined
   constructor(location: string, session?: string) {
     this.session =
-      typeof window === 'undefined'
-        ? session
-        : (Cookies.get(sessionCookie) as string)
+      typeof window === 'undefined' ? session : Cookies.get(sessionCookie)
     this.logger = console
     this.extend = '- during ' + location + ' - '
   }
 
-  private format = (data: string | object) =>
+  private readonly format = (data: string | object) =>
     typeof data === 'object' ? JSON.stringify(data, null, 2) : data
 
   public info = (message: string | object) => {

@@ -24,7 +24,7 @@ export default function Loader({ override = false }: Readonly<LoaderProps>) {
             aria-live="polite"
             aria-label="Do not refresh the page"
           >
-            <CircularProgress color="inherit" role="progressbar" />
+            <CircularProgress color="inherit" role="progress" />
             <Typography
               variant="body1"
               color="primary"

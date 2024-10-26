@@ -36,7 +36,7 @@ async function changeUserPassword(email, existingPassword, newPassword) {
           function (err, result) {
             if (err) {
               alert(err.message || JSON.stringify(err))
-              reject(err)
+              reject(Error(err.message))
             }
             console.log('call result: ' + result)
             resolve(result)
@@ -46,14 +46,14 @@ async function changeUserPassword(email, existingPassword, newPassword) {
     },
 
     onFailure: function (err) {
-      reject(err)
+      reject(Error(err.message))
     }
   }))
 
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

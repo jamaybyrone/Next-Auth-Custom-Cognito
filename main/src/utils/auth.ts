@@ -3,11 +3,19 @@ import { sessionCookie } from '@/consts/cookie'
 import Log from '@/methods/logger'
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 import { userPool } from '@/consts/userpool'
-import { User } from 'next-auth'
 import { checkIfFirstSignInFromProvider } from '@/methods/checkIfFirstSignInFromProvider'
 
-export const customAuth = async (credentials) => {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+interface UserSession {
+  id: string
+  name?: string | null
+  email?: string | null
+  image?: string | null
+  username?: string | null
+  maxAge: number
+}
+
+export const customAuth = async (credentials): Promise<UserSession> => {
+  const { value: webSessionId } = cookies().get(sessionCookie)
   const logger = new Log('NextAuth', webSessionId)
   const { emailAddress, password, rememberMe } = credentials
 
@@ -24,14 +32,14 @@ export const customAuth = async (credentials) => {
     Pool: userPool
   })
 
-  return (await new Promise((resolve, reject) =>
+  return await new Promise((resolve, reject) =>
     user.authenticateUser(
       new AuthenticationDetails({
         Username: lowerCaseEmail,
         Password: password
       }),
       {
-        onSuccess: async (result) => {
+        onSuccess: (result) => {
           const idToken = result.getIdToken().getJwtToken()
           const deCodedToken = JSON.parse(
             Buffer.from(idToken.split('.')[1], 'base64').toString()
@@ -55,7 +63,7 @@ export const customAuth = async (credentials) => {
             maxAge: rememberMe === 'true' ? 30 * 24 * 60 * 60 : 24 * 60 * 60
           })
         },
-        onFailure: async (err) => {
+        onFailure: (err) => {
           if (err.message === 'Password attempts exceeded') {
             logger.warn(' password attempted exceeded for ' + lowerCaseEmail)
             // maybe notify the user that someone has attempted to possibly compromise?
@@ -69,9 +77,8 @@ export const customAuth = async (credentials) => {
         }
       }
     )
-  )) as unknown as Promise<User>
+  )
 }
-
 
 export const customJWT = async ({ token, user, account }) => {
   const provider = account?.provider

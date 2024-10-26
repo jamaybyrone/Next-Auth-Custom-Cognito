@@ -7,7 +7,7 @@ import { Metadata } from 'next'
 import { HTTPS_WWW_MAIN_DOMAIN } from '@/consts/url'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import Navigation, {UserType} from '@/components/navigation'
+import Navigation, { UserType } from '@/components/navigation'
 
 export const metadata: Metadata = {
   metadataBase: new URL(HTTPS_WWW_MAIN_DOMAIN),

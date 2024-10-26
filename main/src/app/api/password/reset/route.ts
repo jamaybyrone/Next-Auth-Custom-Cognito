@@ -22,13 +22,13 @@ async function resetPassword(username: string, code: string, password: string) {
   return new Promise((resolve, reject) =>
     user.confirmPassword(code, password, {
       onSuccess: (result) => resolve(result),
-      onFailure: (err) => reject(err)
+      onFailure: (err) => reject(Error(err.message))
     })
   )
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)!
+  const { value: webSessionId } = cookies().get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

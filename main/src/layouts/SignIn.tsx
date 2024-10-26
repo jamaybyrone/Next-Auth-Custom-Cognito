@@ -37,9 +37,6 @@ import MuiCard from '@mui/material/Card'
 
 const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
 
-const confirmSuccess = 'Confirmed!, now sign in!'
-const forgotSuccess = 'Password Reset!, now sign in!'
-
 export default function SignIn() {
   const [open, setOpen] = useState<boolean>(false)
   const searchParams = useSearchParams()
@@ -56,7 +53,10 @@ export default function SignIn() {
     emailAddress
   } = useAuthStore()
 
-  const success = confirmed ? confirmSuccess : forgot ? forgotSuccess : ''
+  const confirmSuccess = confirmed ? 'Confirmed!, now sign in!' : null
+  const forgotSuccess = forgot ? 'Password Reset!, now sign in!' : null
+
+  const successMessage = confirmSuccess ?? forgotSuccess
 
   const { googleEnabled, gitHubEnabled } = useFeatures()
   const router = useRouter()
@@ -121,9 +121,9 @@ export default function SignIn() {
             {error}
           </Alert>
         )}
-        {success && (
+        {successMessage && (
           <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-            {success}
+            {successMessage}
           </Alert>
         )}
 

@@ -28,7 +28,7 @@ export const SignUpYupSchema = yup.object({
   passwordConfirmation: yup
     .string()
     .required('No password provided.')
-    .oneOf([yup.ref('password')!], 'Passwords must match')
+    .oneOf([yup.ref('password')], 'Passwords must match')
 })
 
 // formik

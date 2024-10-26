@@ -1,7 +1,7 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
 
-const { DYNAMODB_ACCESS_KEY_ID, DYNAMODB_SECRET_ACCESS_KEY } = process.env
+const { DYNAMODB_USER_TABLE, DYNAMODB_ACCESS_KEY_ID, DYNAMODB_SECRET_ACCESS_KEY } = process.env
 const awsCredetnials = {
   accessKeyId: DYNAMODB_ACCESS_KEY_ID,
   secretAccessKey: DYNAMODB_SECRET_ACCESS_KEY
@@ -32,7 +32,7 @@ export const createNewUserSession = async (
   origin: string
 ) => {
   const command = new PutCommand({
-    TableName: process.env.DYNAMODB_USER_TABLE,
+    TableName: DYNAMODB_USER_TABLE,
     Item: {
       userid: userId,
       name: fullName,
@@ -44,7 +44,7 @@ export const createNewUserSession = async (
 
 export const getUserSession = async (userId: string) => {
   const command = new GetCommand({
-    TableName: process.env.DYNAMODB_USER_TABLE,
+    TableName: DYNAMODB_USER_TABLE,
     Key: {
       userid: userId
     }

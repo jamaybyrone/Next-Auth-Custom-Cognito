@@ -1,11 +1,13 @@
 import { unstable_flag as flag } from '@vercel/flags/next'
 
+const {GITHUB_ENABLED, GOOGLE_ENABLED} = process.env
+
 export const showGitHub = flag({
   key: 'git-hub',
-  decide: () => process.env.GITHUB_ENABLED === '1'
+  decide: () => GITHUB_ENABLED === '1'
 })
 
 export const showGoogle = flag({
   key: 'google',
-  decide: () => process.env.GOOGLE_ENABLED === '1'
+  decide: () => GOOGLE_ENABLED === '1'
 })

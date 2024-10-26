@@ -5,8 +5,8 @@
 
 This is a simple project that shows how to create simple web application which utilizes next auth as an authentication layer.
 
-The main use of signing in and registering is using a Cognito Userpool and [amazon-cognito-identity-js](https://www.npmjs.com/package/amazon-cognito-identity-js)
-it does make use of other providers from NextAuth such as [github](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app) and [google](https://developers.google.com/identity/sign-in/web/sign-in).
+The ability of signing in and registering etc is using a Cognito Userpool and [amazon-cognito-identity-js](https://www.npmjs.com/package/amazon-cognito-identity-js)
+The app does make use of other providers from NextAuth such as [github](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app) and [google](https://developers.google.com/identity/sign-in/web/sign-in), these can be controlled using env variables.
 
 Using cognito, users are able to signin, signup, confirm account, forgot password and change password all using a custom journey.
 
@@ -41,19 +41,21 @@ For tests this project uses [Jest](https://jestjs.io/), [React testing library](
 ## Overview
 So if you come across a bug, raise a PR!, if you think there is a better way of doing something, raise a PR!
 
-This entire project is supposed to aid folk in building a protected area, by all means copy this repo and code, but if you can improve it and help others please do so.
+This entire project is supposed to aid folk in building a protected area using AWS Cognito and next auth, by all means copy this repo and code, but if you can improve it and help others please do so.
 
 ### Queries
 Why did I make this? funsies...
 
-Why stick users in a Dynamo DB? Soooo the DynamoDB is just used as a way to store a user, dont worry no credentials are stored, its just a means to associate a user to a registered account with a unique ID, you could tie this into your own system, such as an ordering system, booking system etc....
+Why stick users in a Dynamo DB? Soooo the DynamoDB is just used as a way to store a user, don't worry no credentials are stored, it's just a means to associate a user to a registered account with a unique ID, you could tie this into your own system, such as an ordering system, booking system etc....
 
 Okay but why dynamoDB as its none relational? Because I'm cheap and this is a demo app...
 
-Why use API endpoints instead of server side actions in NextJS? The reason is I'm kinda old school, I prefer an action going to something I can trace easily, and from a user journey perspective, I am seeing far too many websites where I click a button and have no idea if anythings actually happening or not... this way a user knows because I show a shinny spinner is happening and I can trace everything.
+Why use API endpoints instead of server side actions in NextJS? I basically prefer it, easier to detach.
+I usually prefer a client side action to a server side endpoint, easier on the ui for spinners, potential for code base to be separate and detachable, 
+for example you could just delete the api endpoints and create an express app that handles those calls, API gateway with lambda association.... anything
 
 
-Why no `<SessionProvider>`? it's not really needed when doing the App directory route, that would just call the session callback method in NextAuth which I don't have because im doing everything for sessions severside and using the JWT strategy.
+Why no `<SessionProvider>`? So it's not really needed when doing the App directory route, that would just call the session callback method in NextAuth which I don't have because im doing everything for sessions severside and using the JWT strategy.
 
 Who are ya? [ME!](http://www.jamiebyrne.com)
 

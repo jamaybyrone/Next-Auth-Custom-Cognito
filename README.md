@@ -8,7 +8,7 @@
 
 ## Description
 
-This is a simple project that shows how to create simple web application which utilizes next auth as an authentication layer.
+This project shows how to create a web application which utilizes next auth as an authentication layer.
 
 The ability of signing in and registering etc is using a Cognito Userpool and [amazon-cognito-identity-js](https://www.npmjs.com/package/amazon-cognito-identity-js)
 The app does make use of other providers from NextAuth such as [github](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app) and [google](https://developers.google.com/identity/sign-in/web/sign-in), these can be controlled using env variables.

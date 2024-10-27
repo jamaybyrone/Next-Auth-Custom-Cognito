@@ -2,7 +2,8 @@
 
 ## Demo
 
-[Demo](https://github.com/user-attachments/assets/55b0d98a-8f24-4b03-8c46-3ac8aa8489b6)
+[Demo](https://github.com/user-attachments/assets/6f930454-f99d-414c-a32a-a6910e524699)
+
 
 
 ## Description

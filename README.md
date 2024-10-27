@@ -39,9 +39,11 @@ For tests this project uses [Jest](https://jestjs.io/), [React testing library](
 
 [Material-ui](https://mui.com/material-ui/) - Components general styling.
 
-[Isomorphic-dompurify](https://www.npmjs.com/package/isomorphic-dompurify) - Sanitizing query strings that come into the API.
+[Isomorphic-dompurify](https://www.npmjs.com/package/isomorphic-dompurify) - Sanitizing query strings that come into the API/severside.
 
 [uuid](https://www.npmjs.com/package/uuid) - Used to inject an uuid into a cookie, so you can protect endpoints for only those who have a session, this also enables you to track a user through a frontend and backend calls.
+
+[zod](https://zod.dev/) - Schema validation for the endpoints
 
 ## Overview
 So if you come across a bug, raise a PR!, if you think there is a better way of doing something, raise a PR!

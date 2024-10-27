@@ -1,6 +1,6 @@
 # Next Auth Custom Cognito Signin, with additional providers.
 
-[790f86c7-68d3-4b22-874e-26742f8fa1ae.webm](https://github.com/user-attachments/assets/55b0d98a-8f24-4b03-8c46-3ac8aa8489b6)
+[Demo](https://github.com/user-attachments/assets/55b0d98a-8f24-4b03-8c46-3ac8aa8489b6)
 
 
 ## Description

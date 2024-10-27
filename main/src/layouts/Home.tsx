@@ -26,7 +26,7 @@ export default function Home() {
           This is a demo app.
         </Typography>
         <Typography sx={{ textAlign: 'center' }}>
-          Rhis page can be visited regardless if you are logged in or not.
+          This page can be visited regardless if you are logged in or not.
         </Typography>
       </Box>
     </Card>

@@ -87,7 +87,7 @@ export const customJWT = async ({ token, user, account }) => {
     if (provider === 'github' || provider === 'google') {
       name = user['name']
       email = user['email'] ?? user['id']
-      await checkIfFirstSignInFromProvider(email, name, provider)
+      await checkIfFirstSignInFromProvider(user['id'], email, name, provider)
     }
 
     token.sub = user.id

@@ -27,26 +27,28 @@ const db = DynamoDBDocument.from(new DynamoDB(dynamoConfig), {
 })
 
 export const createNewUserSession = async (
-  userId: string,
-  fullName: string,
+  userid: string,
+  email: string,
+  name: string,
   origin: string
 ) => {
   const command = new PutCommand({
     TableName: DYNAMODB_USER_TABLE,
     Item: {
-      userid: userId,
-      name: fullName,
+      userid,
+      name,
+      email,
       origin
     }
   })
   return await db.send(command)
 }
 
-export const getUserSession = async (userId: string) => {
+export const getUserSession = async (userid: string) => {
   const command = new GetCommand({
     TableName: DYNAMODB_USER_TABLE,
     Key: {
-      userid: userId
+      userid
     }
   })
 

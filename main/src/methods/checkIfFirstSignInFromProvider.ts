@@ -3,13 +3,14 @@
 import { createNewUserSession, getUserSession } from '@/utils/dynamoDB'
 
 export const checkIfFirstSignInFromProvider = async (
+  id: string,
   username: string,
   name: string,
   provider: string
 ) => {
-  const userExists = await getUserSession(username)
+  const userExists = await getUserSession(id)
 
   if (!userExists) {
-    await createNewUserSession(username, name, provider)
+    await createNewUserSession(id, username, name, provider)
   }
 }

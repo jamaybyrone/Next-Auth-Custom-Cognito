@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
   })
 
   await registerCognito(cleanEmail, cleanPassword, [attributeEmail])
-    .then(async () => {
-      await createNewUserSession(cleanEmail, cleanName, 'cognito').catch(
+    .then(async (res) => {
+       await createNewUserSession(res.userSub, cleanEmail, cleanName, 'cognito').catch(
         (e) => {
           logger.error(e)
           status = 400

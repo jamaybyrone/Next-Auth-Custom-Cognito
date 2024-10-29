@@ -15,7 +15,8 @@ interface UserSession {
 }
 
 export const customAuth = async (credentials): Promise<UserSession> => {
-  const { value: webSessionId } = cookies().get(sessionCookie)
+  const cookieStore = await cookies()
+  const { value: webSessionId } = cookieStore.get(sessionCookie)
   const logger = new Log('NextAuth', webSessionId)
   const { emailAddress, password, rememberMe } = credentials
 
@@ -46,15 +47,6 @@ export const customAuth = async (credentials): Promise<UserSession> => {
           )
 
           const cognitoId = deCodedToken.sub
-
-          // create user session
-          const userSession = {
-            id: webSessionId,
-            email: lowerCaseEmail,
-            username: cognitoId,
-            rememberMe: rememberMe
-          }
-          logger.info(userSession)
 
           resolve({
             id: webSessionId,

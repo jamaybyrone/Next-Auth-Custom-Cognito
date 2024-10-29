@@ -215,6 +215,7 @@ describe('Auth Module', () => {
 
       expect(checkIfFirstSignInFromProvider).toHaveBeenCalledWith(
         user.id,
+        user.id,
         undefined,
         account.provider
       )

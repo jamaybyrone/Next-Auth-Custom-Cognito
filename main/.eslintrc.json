@@ -10,8 +10,6 @@
     "no-whitespace-before-property":"error",
     "curly": "error",
     "quotes": ["error", "single"],
-    "unused-imports/no-unused-imports": "error",
     "semi": ["error", "never"]
-  },
-  "plugins": ["unused-imports"]
+  }
 }

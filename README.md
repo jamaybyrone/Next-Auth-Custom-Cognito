@@ -59,13 +59,15 @@ For tests this project uses [Jest](https://jestjs.io/), [React testing library](
 
 Navigate to the relevant app so 'main' or 'members'
 
-To install run:
+To install run in each of the projects:
 ```bash
-npm i
+yarn install
 ```
 
 ## Running Locally
-Once you have installed simply run:
+You will need to set up a .env file taken from the .env.example in each project.
+
+Once you have installed simply run in each of the projects, main will run on port 3000 and members will run on 3001
 
 ```bash
 npm run dev

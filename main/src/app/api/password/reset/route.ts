@@ -28,7 +28,8 @@ async function resetPassword(username: string, code: string, password: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)
+  const cookieStore = await cookies()
+  const { value: webSessionId } = cookieStore.get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }

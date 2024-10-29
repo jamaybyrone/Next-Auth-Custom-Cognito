@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import {CognitoUserAttribute, ISignUpResult} from 'amazon-cognito-identity-js'
 
 import DOMPurify from 'isomorphic-dompurify'
 import { cookies } from 'next/headers'
@@ -32,7 +32,8 @@ async function registerCognito(
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)
+  const cookieStore = await cookies()
+  const { value: webSessionId } = cookieStore.get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
   })
 
   await registerCognito(cleanEmail, cleanPassword, [attributeEmail])
-    .then(async (res) => {
+    .then(async (res:ISignUpResult) => {
        await createNewUserSession(res.userSub, cleanEmail, cleanName, 'cognito').catch(
         (e) => {
           logger.error(e)

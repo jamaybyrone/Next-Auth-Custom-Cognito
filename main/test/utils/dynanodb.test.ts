@@ -19,7 +19,9 @@ describe('DynamoDB Functions', () => {
   const mockUserId = 'user123'
   const mockFullName = 'John Doe'
   const mockOrigin = 'https://example.com'
+  const mockEmail = 'test@test.com'
   const mockItem = {
+    email: mockEmail,
     userid: mockUserId,
     name: mockFullName,
     origin: mockOrigin
@@ -35,6 +37,7 @@ describe('DynamoDB Functions', () => {
 
       const result = await createNewUserSession(
         mockUserId,
+        mockEmail,
         mockFullName,
         mockOrigin
       )
@@ -51,7 +54,7 @@ describe('DynamoDB Functions', () => {
       sendMock.mockRejectedValueOnce(new Error(errorMessage))
 
       await expect(
-        createNewUserSession(mockUserId, mockFullName, mockOrigin)
+        createNewUserSession(mockUserId,mockEmail, mockFullName, mockOrigin)
       ).rejects.toThrow(errorMessage)
     })
   })

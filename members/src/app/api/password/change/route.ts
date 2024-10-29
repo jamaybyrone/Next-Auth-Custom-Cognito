@@ -16,7 +16,7 @@ const schema = z.object({
   newPassword: z.string()
 })
 
-async function changeUserPassword(email, existingPassword, newPassword) {
+async function changeUserPassword(email, existingPassword, newPassword, logger) {
   const authenticationData = {
     Username: email,
     Password: existingPassword
@@ -29,16 +29,15 @@ async function changeUserPassword(email, existingPassword, newPassword) {
   )
 
   return await new Promise((resolve, reject) => user.authenticateUser(authenticationDetails, {
-    onSuccess: function (result) {
+    onSuccess: function (_result) {
       user.changePassword(
           existingPassword,
           newPassword,
           function (err, result) {
             if (err) {
-              alert(err.message || JSON.stringify(err))
+              logger.error(err.message)
               reject(Error(err.message))
             }
-            console.log('call result: ' + result)
             resolve(result)
           }
       )
@@ -46,6 +45,7 @@ async function changeUserPassword(email, existingPassword, newPassword) {
     },
 
     onFailure: function (err) {
+      logger.error(err.message)
       reject(Error(err.message))
     }
   }))
@@ -53,7 +53,8 @@ async function changeUserPassword(email, existingPassword, newPassword) {
 }
 
 export async function POST(request: NextRequest) {
-  const { value: webSessionId } = cookies().get(sessionCookie)
+  const cookieStore = await cookies()
+  const { value: webSessionId } = cookieStore.get(sessionCookie)
   if (!webSessionId) {
     return NextResponse.json({ error: 'no session' }, { status: 401 })
   }
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest) {
 
   let status = 200
 
-  await changeUserPassword(session.user.email, cleanExistingPassword, cleanNewPassword).catch((e)=>{
+  await changeUserPassword(session.user.email, cleanExistingPassword, cleanNewPassword, logger).catch((e)=>{
     logger.error(e)
     status = 400
   })

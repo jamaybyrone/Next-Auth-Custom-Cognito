@@ -69,13 +69,15 @@ If you do not want to use Github and or Google Signin, you can disable this in t
 
 Navigate to the relevant app so 'main' or 'members'
 
-To install run:
+To install run in each of the projects:
 ```bash
-npm i
+yarn install
 ```
 
 ## Running Locally
-Once you have installed simply run:
+You will need to set up a .env file taken from the .env.example in each project.
+
+Once you have installed simply run in each of the projects, main will run on port 3000 and members will run on 3001
 
 ```bash
 npm run dev

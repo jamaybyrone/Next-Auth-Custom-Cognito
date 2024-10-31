@@ -1,14 +1,12 @@
 'use client'
 
-import { ReactNode, Suspense } from 'react'
-import Loader from '@/components/loader'
+import { ReactNode } from 'react'
 import Stack from '@mui/material/Stack'
 
 export default function CommonLayout({
   children
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <Suspense fallback={<Loader override={true} />}>
       <Stack
         direction="column"
         component="section"
@@ -31,6 +29,5 @@ export default function CommonLayout({
           {children}
         </Stack>
       </Stack>
-    </Suspense>
   )
 }

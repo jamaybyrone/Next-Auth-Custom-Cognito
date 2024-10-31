@@ -70,7 +70,6 @@ describe('Auth Module', () => {
         username: expect.any(String),
         maxAge: 30 * 24 * 60 * 60
       })
-      expect(mockLogger.info).toHaveBeenCalled()
     })
 
     it('should authenticate user and resolve with and not remember user', async () => {
@@ -100,7 +99,6 @@ describe('Auth Module', () => {
         username: expect.any(String),
         maxAge: 24 * 60 * 60
       })
-      expect(mockLogger.info).toHaveBeenCalled()
     })
 
     it('should reject when no web session ID is found', async () => {

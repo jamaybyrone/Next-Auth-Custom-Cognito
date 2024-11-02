@@ -7,14 +7,11 @@ on:
 
 env:
   NODE_VERSION: '21'
-  BUILD_TIMEOUT: 2
-  TEST_TIMEOUT: 2
-  LINT_TIMEOUT: 2
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ env.LINT_TIMEOUT }}
+    timeout-minutes: 2
 
     steps:
       - name: Checkout Code
@@ -46,7 +43,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: lint
-    timeout-minutes: ${{ env.BUILD_TIMEOUT }}
+    timeout-minutes: 2
 
     steps:
       - name: Checkout Code
@@ -78,7 +75,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    timeout-minutes: ${{ env.TEST_TIMEOUT }}
+    timeout-minutes: 2
 
     steps:
       - name: Checkout Code

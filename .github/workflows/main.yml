@@ -22,9 +22,12 @@ jobs:
     - name: Get Commit Author
       id: get-author
       run: |
-        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
-        echo "COMMIT_AUTHOR=${COMMIT_AUTHOR}" >> $GITHUB_ENV
-        echo "Commit author is: $COMMIT_AUTHOR"
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          echo "COMMIT_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+        else
+          echo "COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
+        fi
+        echo "Commit author is: $COMMIT_AUTHOR"  # Print the author for debugging
 
     - name: Check Author
       if: env.COMMIT_AUTHOR == env.VALID_AUTHOR

@@ -11,7 +11,7 @@ env:
   NEXT_PUBLIC_LOCALE: 'en-gb'
   MEMBERS_URL: "http://localhost:3001"
 jobs:
-  everything:
+  main:
     runs-on: ubuntu-latest
     timeout-minutes: 3
 

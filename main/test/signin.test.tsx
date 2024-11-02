@@ -38,21 +38,6 @@ describe('Sign in Meta', () => {
     const homeMeta = {
       description: 'Cognito Custom Auth sign in to this website',
       metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
-      openGraph: {
-        description: 'Cognito Custom Auth sign in to this website',
-        images: [
-          {
-            height: 600,
-            url: undefined,
-            width: 800
-          }
-        ],
-        locale: 'en-gb',
-        siteName: 'Cognito Custom Auth',
-        title: 'Sign In - Cognito Custom Auth',
-        type: 'website',
-        url: process.env.NEXT_PUBLIC_URL
-      },
       robots: {
         follow: true,
         googleBot: {

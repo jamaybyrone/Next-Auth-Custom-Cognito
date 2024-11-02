@@ -8,7 +8,6 @@ export const data: pageMetaType = {
   meta: {
     title: 'Confirm - ' + SITE_NAME,
     description: SITE_NAME + ' confirm your account',
-    image: `${NEXT_PUBLIC_URL}/images/backgrounds/og-1.jpg`,
     url: NEXT_PUBLIC_URL
   }
 }

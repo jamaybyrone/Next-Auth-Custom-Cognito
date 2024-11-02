@@ -11,7 +11,6 @@ export type metaProps = {
   title: string
   url: string
   description: string
-  image: string
   crawlers?: Robots
 }
 export default function meta(meta: metaProps, crawlers = robots): Metadata {

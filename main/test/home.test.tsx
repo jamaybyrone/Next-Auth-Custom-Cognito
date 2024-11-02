@@ -14,7 +14,7 @@ describe('HomePage Meta', () => {
         images: [
           {
             height: 600,
-            url: process.env.NEXT_PUBLIC_URL + '/images/backgrounds/og-1.jpg',
+            url: undefined,
             width: 800
           }
         ],

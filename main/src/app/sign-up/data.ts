@@ -8,7 +8,6 @@ export const data: pageMetaType = {
   meta: {
     title: 'Sign Up - ' + SITE_NAME,
     description: SITE_NAME + ' sign up for this website',
-    image: `${NEXT_PUBLIC_URL}/images/backgrounds/og-1.jpg`,
     url: NEXT_PUBLIC_URL
   }
 }

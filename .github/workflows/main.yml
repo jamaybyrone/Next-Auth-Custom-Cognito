@@ -8,8 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      VALID_AUTHOR: 'jamaybyrone'
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -17,30 +15,19 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '21' # Adjust the Node.js version as needed
-
-    - name: Get Commit Author
-      id: get-author
-      run: |
-        if [ "${{ github.event_name }}" == "pull_request" ]; then
-          echo "COMMIT_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
-        else
-          echo "COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
-        fi
-        echo "Commit author is: $COMMIT_AUTHOR"  # Print the author for debugging
-
-    - name: Check Author
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: echo "Hey there handsome. Proceeding with the tests."
+        node-version: '21'
 
     - name: Install Dependencies
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm install
+      run: |
+        cd main
+        npm install
 
     - name: Run Lint
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm test:jest
+      run: |
+        cd main
+        npm test:jest
 
     - name: Run Jest
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm test:jest
+      run: |
+        cd main
+        npm test:jest

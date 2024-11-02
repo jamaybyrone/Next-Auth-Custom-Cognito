@@ -62,6 +62,6 @@ jobs:
           npm run test:jest
 
       - name: Jest Coverage Report
-        uses: jest-coverage-report/jest-coverage-report@v1
+      - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           path: main/coverage/coverage-summary.json

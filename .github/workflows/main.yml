@@ -11,7 +11,7 @@ env:
   NEXT_PUBLIC_LOCALE: 'en-gb'
   MEMBERS_URL: "http://localhost:3001"
   COGNITO_APP_CLIENT_ID: "fake"
-  COGNITO_USER_POOL_ID: "fake"
+  COGNITO_USER_POOL_ID: "eu-west-fake"
 jobs:
   main:
     runs-on: ubuntu-latest

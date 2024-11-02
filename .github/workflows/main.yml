@@ -31,7 +31,9 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd main
+          yarn install
 
   lint:
     runs-on: ubuntu-latest

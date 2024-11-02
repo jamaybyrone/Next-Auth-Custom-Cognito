@@ -10,6 +10,8 @@ env:
   NEXT_PUBLIC_URL: 'http://localhost:3000'
   NEXT_PUBLIC_LOCALE: 'en-gb'
   MEMBERS_URL: "http://localhost:3001"
+  COGNITO_APP_CLIENT_ID: "fake"
+  COGNITO_USER_POOL_ID: "fake"
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -45,6 +47,8 @@ jobs:
       - name: Build Project
         env:
           NEXT_PUBLIC_URL: ${{ env.MEMBERS_URL }}
+          COGNITO_APP_CLIENT_ID: ${{ env.COGNITO_APP_CLIENT_ID }}
+          COGNITO_USER_POOL_ID: ${{ env.COGNITO_USER_POOL_ID }}
         run: |
           cd main
           npm run build 

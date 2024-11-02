@@ -7,9 +7,11 @@ on:
 
 env:
   NODE_VERSION: '21'
-
+  NEXT_PUBLIC_URL: 'http://localhost:3000'
+  NEXT_PUBLIC_LOCALE: 'en-gb'
+  MEMBERS_URL: "http://localhost:3001"
 jobs:
-  lint:
+  everything:
     runs-on: ubuntu-latest
     timeout-minutes: 3
 
@@ -22,13 +24,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache node_modules
+      - name: Cache Yarn Dependencies
         uses: actions/cache@v3
         with:
-          path: main/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
+          path: main/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('main/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
         run: |
@@ -38,71 +40,19 @@ jobs:
       - name: Run Lint
         run: |
           cd main
-          npm run lint  # Assuming you have a lint script defined in your package.json
-
-  build:
-    runs-on: ubuntu-latest
-    needs: lint
-    timeout-minutes: 3
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: main/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - name: Install Dependencies
-        run: |
-          cd main
-          yarn install
+          npm run lint
 
       - name: Build Project
+        env:
+          NEXT_PUBLIC_URL: ${{ env.MEMBERS_URL }}
         run: |
           cd main
-          npm run build
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    timeout-minutes: 3
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: main/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - name: Install Dependencies
-        run: |
-          cd main
-          yarn install
+          npm run build 
 
       - name: Run Tests
         env:
-          NEXT_PUBLIC_URL: 'http://localhost:3000'
-          NEXT_PUBLIC_LOCALE: 'en-gb'
+          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
+          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
         run: |
           cd main
-          npm test
+          npm run test:jest

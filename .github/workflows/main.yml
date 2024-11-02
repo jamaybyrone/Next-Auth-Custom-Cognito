@@ -21,15 +21,14 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache node_modules
+
+      - name: Cache npm
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules  # Cache the node_modules directory
-            ~/.npm  # Optionally cache the npm cache for better performance
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          path: ~/main/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-npm-
 
       - name: Install Dependencies
         run: |
@@ -50,15 +49,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
 
-      - name: Cache node_modules
+      - name: Cache npm
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules  # Cache the node_modules directory
-            ~/.npm  # Optionally cache the npm cache for better performance
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          path: ~/main/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-npm-
 
       - name: Run Lint
         run: |
@@ -78,15 +75,14 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache node_modules
+
+      - name: Cache npm
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules  # Cache the node_modules directory
-            ~/.npm  # Optionally cache the npm cache for better performance
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          path: ~/main/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-npm-
 
       - name: Run Jest
         env:

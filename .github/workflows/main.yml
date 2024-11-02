@@ -60,3 +60,8 @@ jobs:
         run: |
           cd main
           npm run test:jest
+
+      - name: Jest Coverage Report
+        uses: jest-coverage-report/jest-coverage-report@v1
+        with:
+          path: main/coverage/coverage-summary.json

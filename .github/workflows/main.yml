@@ -5,13 +5,17 @@ on:
     branches:
       - '**'
 
-
 env:
   NODE_VERSION: '21'
-  timeout: 2
+  BUILD_TIMEOUT: 2
+  TEST_TIMEOUT: 2
+  LINT_TIMEOUT: 2
+
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ env.LINT_TIMEOUT }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -21,24 +25,29 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/main/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
+          path: main/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
       - name: Install Dependencies
         run: |
           cd main
           yarn install
 
-  lint:
+      - name: Run Lint
+        run: |
+          cd main
+          npm run lint  # Assuming you have a lint script defined in your package.json
+
+  build:
     runs-on: ubuntu-latest
-    needs: build
-    timeout-minutes: 2
+    needs: lint
+    timeout-minutes: ${{ env.BUILD_TIMEOUT }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -48,24 +57,29 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/main/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
+          path: main/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
-      - name: Run Lint
+      - name: Install Dependencies
         run: |
           cd main
-          npm run lint
+          yarn install
+
+      - name: Build Project
+        run: |
+          cd main
+          npm run build
 
   test:
     runs-on: ubuntu-latest
     needs: build
-    timeout-minutes: 2
+    timeout-minutes: ${{ env.TEST_TIMEOUT }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -75,19 +89,23 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/main/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/main/package-lock.json') }}
+          path: main/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('main/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
-      - name: Run Jest
+      - name: Install Dependencies
+        run: |
+          cd main
+          yarn install
+
+      - name: Run Tests
         env:
           NEXT_PUBLIC_URL: 'http://localhost:3000'
           NEXT_PUBLIC_LOCALE: 'en-gb'
         run: |
           cd main
-          npm run test:jest
+          npm test

@@ -1,9 +1,9 @@
 name: Build Tests, Lints Oh My!
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
-      - '**'
+      - main
 
 env:
   NODE_VERSION: '21'
@@ -53,15 +53,18 @@ jobs:
           cd main
           yarn build 
 
-      - name: Run Tests
+#      - name: Run Tests
+#        env:
+#          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
+#          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
+#        run: |
+#          cd main
+#          yarn test:jest
+
+      - name: Jest Coverage Report
         env:
           NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
           NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
-        run: |
-          cd main
-          yarn test:jest
-
-      - name: Jest Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           package-manager: yarn

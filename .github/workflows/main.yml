@@ -15,7 +15,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'
+        node-version: '21'
 
     - name: Install Dependencies
       run: |
@@ -28,6 +28,8 @@ jobs:
         npm run lint
 
     - name: Run Jest
+      env:
+        NEXT_PUBLIC_URL: 'http://localhost:3000'
       run: |
         cd main
         npm run test:jest

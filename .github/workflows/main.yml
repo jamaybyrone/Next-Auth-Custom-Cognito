@@ -20,7 +20,7 @@ jobs:
     - name: Install Dependencies
       run: |
         cd main
-        npm install
+        yarn install
 
     - name: Run Lint
       run: |

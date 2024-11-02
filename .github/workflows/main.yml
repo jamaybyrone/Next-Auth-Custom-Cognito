@@ -25,9 +25,9 @@ jobs:
     - name: Run Lint
       run: |
         cd main
-        npm test:jest
+        npm run lint
 
     - name: Run Jest
       run: |
         cd main
-        npm test:jest
+        npm run test:jest

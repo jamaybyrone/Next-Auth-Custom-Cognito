@@ -42,7 +42,7 @@ jobs:
       - name: Run Lint
         run: |
           cd main
-          npm run lint
+          yarn lint
 
       - name: Build Project
         env:
@@ -51,7 +51,7 @@ jobs:
           COGNITO_USER_POOL_ID: ${{ env.COGNITO_USER_POOL_ID }}
         run: |
           cd main
-          npm run build 
+          yarn build 
 
       - name: Run Tests
         env:
@@ -59,7 +59,7 @@ jobs:
           NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
         run: |
           cd main
-          npm run test:jest
+          yarn test:jest
 
       - name: Jest Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2

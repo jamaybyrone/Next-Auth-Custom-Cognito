@@ -21,14 +21,15 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            node_modules  # Cache the node_modules directory
+            ~/.npm  # Optionally cache the npm cache for better performance
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
       - name: Install Dependencies
         run: |
@@ -49,13 +50,15 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
 
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            node_modules  # Cache the node_modules directory
+            ~/.npm  # Optionally cache the npm cache for better performance
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
       - name: Run Lint
         run: |
@@ -75,14 +78,15 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-
-      - name: Cache npm
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            node_modules  # Cache the node_modules directory
+            ~/.npm  # Optionally cache the npm cache for better performance
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
 
       - name: Run Jest
         env:

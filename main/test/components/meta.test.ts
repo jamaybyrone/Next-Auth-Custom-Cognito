@@ -18,21 +18,6 @@ describe('meta function', () => {
       title: mockMeta.title,
       metadataBase: new URL(mockMeta.url),
       description: mockMeta.description,
-      openGraph: {
-        title: mockMeta.title,
-        description: mockMeta.description,
-        url: mockMeta.url,
-        siteName: SITE_NAME,
-        images: [
-          {
-            url: mockMeta.image,
-            width: 800,
-            height: 600
-          }
-        ],
-        locale: process.env.NEXT_PUBLIC_LOCALE,
-        type: 'website'
-      },
       robots: defaultCrawlers
     })
   })

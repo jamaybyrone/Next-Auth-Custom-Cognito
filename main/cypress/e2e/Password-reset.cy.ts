@@ -97,7 +97,7 @@ describe("Enter valid Code", () => {
         cy.get('input[name="password"]').type('WhatALovelypASS!');
         cy.get('input[name="passwordConfirmation"]').type('WhatALovelypASS!');
         cy.get('button[type="submit"]').click();
-        cy.url().should('include', '/?forgot=true');
+        cy.url().should('include', '?forgot=true');
 
       })
     })

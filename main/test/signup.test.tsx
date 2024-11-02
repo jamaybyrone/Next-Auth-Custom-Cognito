@@ -34,21 +34,6 @@ describe('SignUp Meta', () => {
     const signUp = {
       description: 'Cognito Custom Auth sign up for this website',
       metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
-      openGraph: {
-        description: 'Cognito Custom Auth sign up for this website',
-        images: [
-          {
-            height: 600,
-            url: process.env.NEXT_PUBLIC_URL + '/images/backgrounds/og-1.jpg',
-            width: 800
-          }
-        ],
-        locale: 'en-gb',
-        siteName: 'Cognito Custom Auth',
-        title: 'Sign Up - Cognito Custom Auth',
-        type: 'website',
-        url: process.env.NEXT_PUBLIC_URL
-      },
       robots: {
         follow: true,
         googleBot: {

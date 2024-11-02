@@ -1,41 +1,71 @@
-name: Run Jest Tests for me
+name: Build Tests, Lints Oh My!
 
 on:
   pull_request:
     branches:
       - '**'
 
+env:
+  NODE_VERSION: '21'
+  NEXT_PUBLIC_URL: 'http://localhost:3000'
+  NEXT_PUBLIC_LOCALE: 'en-gb'
+  MEMBERS_URL: "http://localhost:3001"
+  COGNITO_APP_CLIENT_ID: "fake"
+  COGNITO_USER_POOL_ID: "eu-west-1_8IEnjoy"
 jobs:
-  test:
+  main:
     runs-on: ubuntu-latest
-    env:
-      VALID_AUTHOR: 'jamaybyrone'
+    timeout-minutes: 3
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '21' # Adjust the Node.js version as needed
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: Get Commit Author
-      id: get-author
-      run: |
-        echo "COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+      - name: Cache Yarn Dependencies
+        uses: actions/cache@v3
+        with:
+          path: main/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('main/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-    - name: Check Author
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: echo "Hey there handsome. Proceeding with the tests."
+      - name: Install Dependencies
+        run: |
+          cd main
+          yarn install
 
-    - name: Install Dependencies
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm install
-   
-    - name: Run Lint
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm test:jest
+      - name: Run Lint
+        run: |
+          cd main
+          yarn lint
 
-    - name: Run Jest
-      if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
-      run: npm test:jest
+      - name: Build Project
+        env:
+          NEXT_PUBLIC_URL: ${{ env.MEMBERS_URL }}
+          COGNITO_APP_CLIENT_ID: ${{ env.COGNITO_APP_CLIENT_ID }}
+          COGNITO_USER_POOL_ID: ${{ env.COGNITO_USER_POOL_ID }}
+        run: |
+          cd main
+          yarn build 
+
+#      - name: Run Tests
+#        env:
+#          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
+#          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
+#        run: |
+#          cd main
+#          yarn test:jest
+
+      - name: Jest Coverage Report
+        env:
+          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
+          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          package-manager: yarn
+          working-directory: ./main

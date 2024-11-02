@@ -11,7 +11,6 @@ export type metaProps = {
   title: string
   url: string
   description: string
-  image: string
   crawlers?: Robots
 }
 export default function meta(meta: metaProps, crawlers = robots): Metadata {
@@ -19,21 +18,6 @@ export default function meta(meta: metaProps, crawlers = robots): Metadata {
     title: meta.title,
     metadataBase: new URL(meta.url),
     description: meta.description,
-    openGraph: {
-      title: meta.title,
-      description: meta.description,
-      url: meta.url,
-      siteName: SITE_NAME,
-      images: [
-        {
-          url: meta.image,
-          width: 800,
-          height: 600
-        }
-      ],
-      locale: NEXT_PUBLIC_LOCALE,
-      type: 'website'
-    },
     robots: crawlers
   }
 }

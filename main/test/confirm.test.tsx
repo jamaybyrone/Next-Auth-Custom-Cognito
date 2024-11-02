@@ -31,21 +31,6 @@ describe('Confirm Meta', () => {
     const confirmMeta = {
       description: 'Cognito Custom Auth confirm your account',
       metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
-      openGraph: {
-        description: 'Cognito Custom Auth confirm your account',
-        images: [
-          {
-            height: 600,
-            url: process.env.NEXT_PUBLIC_URL + '/images/backgrounds/og-1.jpg',
-            width: 800
-          }
-        ],
-        locale: 'en-gb',
-        siteName: 'Cognito Custom Auth',
-        title: 'Confirm - Cognito Custom Auth',
-        type: 'website',
-        url: process.env.NEXT_PUBLIC_URL
-      },
       robots: {
         follow: true,
         googleBot: {

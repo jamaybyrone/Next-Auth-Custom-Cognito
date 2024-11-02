@@ -64,4 +64,5 @@ jobs:
       - name: Jest Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          path: main/coverage/coverage-summary.json
+          package-manager: yarn
+          working-directory: ./main

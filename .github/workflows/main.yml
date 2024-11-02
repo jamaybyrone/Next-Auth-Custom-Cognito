@@ -22,7 +22,9 @@ jobs:
     - name: Get Commit Author
       id: get-author
       run: |
-        echo "COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
+        echo "COMMIT_AUTHOR=${COMMIT_AUTHOR}" >> $GITHUB_ENV
+        echo "Commit author is: $COMMIT_AUTHOR"
 
     - name: Check Author
       if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
@@ -31,7 +33,7 @@ jobs:
     - name: Install Dependencies
       if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
       run: npm install
-   
+
     - name: Run Lint
       if: env.COMMIT_AUTHOR == env.VALID_AUTHOR
       run: npm test:jest

@@ -91,7 +91,7 @@ describe("Enter valid Code", () => {
       it('Then they should be redirected', () => {
         cy.get('input[name="code"]').type('32432');
         cy.get('button[type="submit"]').click();
-        cy.url().should('include', '/?confirmed=true');
+        cy.url().should('include', '?confirmed=true');
 
       })
     })

@@ -20,10 +20,10 @@ The app does make use of other providers from NextAuth such as [github](https://
 
 Using cognito, users are able to signin, signup, confirm account, forgot password and change password all using a custom journey.
 
-There are two applications in this project called 'main' and 'members', main is the signin, signup etc application whereas 
-members is a protected area only accessible once logged in.
+There are two applications in this project called 'main' and 'members', main is the signin, signup etc application..
+whereas members is a protected area only accessible once logged in.
 
-Once users are signed in are put into a very simple user table in [DynamoDB](https://aws.amazon.com/pm/dynamodb/).
+Once users are signed in, they're put into a very simple user table in [DynamoDB](https://aws.amazon.com/pm/dynamodb/).
 
 So if you come across a bug, raise a PR!, if you think there is a better way of doing something, raise a PR!
 
@@ -91,7 +91,7 @@ Why stick users in a Dynamo DB? Soooo the DynamoDB is just used as a way to stor
 Okay but why dynamoDB as its none relational? Because I'm cheap and this is a demo app...
 
 Why use API endpoints instead of server side actions in NextJS? I basically prefer it, easier to detach.
-I usually prefer a client side action to a server side endpoint, easier on the ui for spinners, potential for code base to be separate and detachable, 
+I usually prefer a client side action to a server side endpoint, easier on the ui for spinners, potential for code base to be separate and detachable,
 for example you could just delete the api endpoints and create an express app that handles those calls, API gateway with lambda association.... anything
 
 

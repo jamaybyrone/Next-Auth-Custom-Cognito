@@ -1,45 +1,93 @@
-name: Run Jest Tests for me
+name: Build Tests, Lints Oh My!
 
 on:
   pull_request:
     branches:
       - '**'
 
+timeout-minutes: 3
+
+env:
+  NODE_VERSION: '21'
+
 jobs:
-  test:
-    timeout-minutes: 3
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '21'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: Cache npm
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-
 
-    - name: Install Dependencies
-      run: |
-        cd main
-        yarn install
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
-    - name: Run Lint
-      run: |
-        cd main
-        npm run lint
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Run Jest
-      env:
-        NEXT_PUBLIC_URL: 'http://localhost:3000'
-        NEXT_PUBLIC_LOCALE: 'en-gb'
-      run: |
-        cd main
-        npm run test:jest
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Run Lint
+        run: |
+          cd main
+          npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Run Jest
+        env:
+          NEXT_PUBLIC_URL: 'http://localhost:3000'
+          NEXT_PUBLIC_LOCALE: 'en-gb'
+        run: |
+          cd main
+          npm run test:jest

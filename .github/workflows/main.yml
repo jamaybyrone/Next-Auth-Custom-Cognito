@@ -53,30 +53,11 @@ jobs:
           cd main
           yarn build 
 
-#      - name: Run Tests
-#        env:
-#          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
-#          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
-#        run: |
-#          cd main
-#          yarn test:jest
-
-# - name: Jest Coverage Report
-#   env:
-#     NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
-#     NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
-#   uses: ArtiomTr/jest-coverage-report-action@v2
-#   with:
-#     package-manager: yarn
-#     working-directory: ./main
-
       - name: Run Tests
+        env:
+          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
+          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
         run: |
           cd main
-          npm run test:jest
+          yarn test:jest
 
-      - name: Publish Jest Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          working-directory: ./main
-          coverage-summary: coverage/coverage-final.json

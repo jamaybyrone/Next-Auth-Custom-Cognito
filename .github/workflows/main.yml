@@ -75,9 +75,7 @@ jobs:
           cd main
           npm run test:jest
 
-      # Step 5: Generate and upload Jest coverage report
       - name: Publish Jest Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          # Specify the path to the coverage report folder
           coverage-summary: main/coverage/coverage-summary.json

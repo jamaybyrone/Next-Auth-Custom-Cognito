@@ -13,7 +13,7 @@
     "test:cypress": "cypress run --browser chrome"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "6.5.0",
+    "@testing-library/jest-dom": "6.6.3",
     "@aws-sdk/client-dynamodb": "3.682.0",
     "@aws-sdk/lib-dynamodb": "3.682.0",
     "@emotion/cache": "11.13.1",
@@ -48,7 +48,7 @@
     "prettier": "3.3.3",
     "tsx": "4.19.2",
     "@testing-library/react": "16.0.1",
-    "@testing-library/jest-dom": "6.6.2",
+    "@testing-library/jest-dom": "6.6.3",
     "@testing-library/cypress": "10.0.2",
     "@types/jest": "29.5.14",
     "jest": "29.7.0",

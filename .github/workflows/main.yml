@@ -78,4 +78,5 @@ jobs:
       - name: Publish Jest Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
-          coverage-summary: main/coverage/coverage-summary.json
+          working-directory: ./main
+          coverage-summary: coverage/coverage-summary.json

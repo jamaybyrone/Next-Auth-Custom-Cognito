@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.687.0",
-    "@aws-sdk/lib-dynamodb": "3.687.0",
+    "@aws-sdk/lib-dynamodb": "3.689.0",
     "@emotion/cache": "11.13.1",
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",

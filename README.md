@@ -1,6 +1,6 @@
 # Next Auth Custom Cognito Signin, with additional providers.
 
-**NOTE** 14/11/2024 - I am in the process of switching this to postgress instead of dynamo and using datbase session
+**NOTE** 14/11/2024 - I am in the process of switching this to postgress instead of dynamo and using database session
 
 ## Demo
 

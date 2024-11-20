@@ -13,16 +13,16 @@
     "test:cypress": "cypress run --browser chrome"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.693.0",
-    "@aws-sdk/lib-dynamodb": "3.693.0",
-    "@emotion/cache": "11.13.1",
-    "@emotion/react": "11.13.3",
-    "@emotion/styled": "11.13.0",
-    "@mui/icons-material": "6.1.7",
-    "@mui/material": "6.1.7",
-    "@mui/material-nextjs": "6.1.7",
+    "@aws-sdk/client-dynamodb": "3.696.0",
+    "@aws-sdk/lib-dynamodb": "3.696.0",
+    "@emotion/cache": "11.13.5",
+    "@emotion/react": "11.13.5",
+    "@emotion/styled": "11.13.5",
+    "@mui/icons-material": "6.1.8",
+    "@mui/material": "6.1.8",
+    "@mui/material-nextjs": "6.1.8",
     "@types/js-cookie": "3.0.6",
-    "@types/node": "22.9.0",
+    "@types/node": "22.9.1",
     "@types/uuid": "10.0.0",
     "@vercel/flags": "2.6.3",
     "amazon-cognito-identity-js": "6.3.12",
@@ -54,6 +54,6 @@
     "jest-environment-jsdom": "29.7.0",
     "@types/uuid": "10.0.0",
     "cypress-axe": "1.5.0",
-    "cypress": "13.15.2"
+    "cypress": "13.16.0"
   }
 }

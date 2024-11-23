@@ -19,7 +19,7 @@
     "@mui/material": "6.1.8",
     "@mui/material-nextjs": "6.1.8",
     "@types/js-cookie": "3.0.6",
-    "@types/node": "22.9.1",
+    "@types/node": "22.9.3",
     "@types/uuid": "10.0.0",
     "amazon-cognito-identity-js": "6.3.12",
     "formik": "2.4.6",

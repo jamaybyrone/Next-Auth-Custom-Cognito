@@ -13,8 +13,8 @@
     "test:cypress": "cypress run --browser chrome"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.738.0",
-    "@aws-sdk/lib-dynamodb": "3.738.0",
+    "@aws-sdk/client-dynamodb": "3.741.0",
+    "@aws-sdk/lib-dynamodb": "3.741.0",
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
@@ -22,7 +22,7 @@
     "@mui/material": "6.4.2",
     "@mui/material-nextjs": "6.4.2",
     "@types/js-cookie": "3.0.6",
-    "@types/node": "22.13.0",
+    "@types/node": "22.13.1",
     "@types/uuid": "10.0.0",
     "@vercel/flags": "2.6.3",
     "amazon-cognito-identity-js": "6.3.12",

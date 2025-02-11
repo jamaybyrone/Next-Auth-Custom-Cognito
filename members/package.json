@@ -25,7 +25,7 @@
     "formik": "2.4.6",
     "isomorphic-dompurify": "2.21.0",
     "js-cookie": "3.0.5",
-    "next": "15.1.6",
+    "next": "15.1.7",
     "next-auth": "4.24.11",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -38,9 +38,9 @@
   "devDependencies": {
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
-    "eslint": "9.19.0",
-    "eslint-config-next": "15.1.6",
-    "prettier": "3.4.2",
+    "eslint": "9.20.0",
+    "eslint-config-next": "15.1.7",
+    "prettier": "3.5.0",
     "tsx": "4.19.2",
     "typescript": "5.7.3"
   }

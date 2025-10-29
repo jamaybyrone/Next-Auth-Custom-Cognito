@@ -30,7 +30,7 @@
     "isomorphic-dompurify": "2.22.0",
     "js-cookie": "3.0.5",
     "next": "15.2.1",
-    "next-auth": "4.24.11",
+    "next-auth": "4.24.12",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "typescript": "5.8.2",

@@ -8,6 +8,7 @@ import { HTTPS_WWW_MAIN_DOMAIN } from '@/consts/url'
 import { getServerSession } from 'next-auth'
 import { showGitHub, showGoogle } from '@/flags'
 import Navigation, { UserType } from '@/components/navigation'
+import { SnackBar } from '@/components/SnackBar'
 
 export const metadata: Metadata = {
   metadataBase: new URL(HTTPS_WWW_MAIN_DOMAIN),
@@ -33,6 +34,7 @@ export default async function RootLayout({
           <Navigation session={session?.user as UserType} />
           <main tabIndex={0}>{children}</main>
           <Loader />
+          <SnackBar />
         </body>
       </html>
     </ThemeRegistry>

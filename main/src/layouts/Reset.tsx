@@ -7,15 +7,10 @@ import Typography from '@mui/material/Typography'
 import { useFormik } from 'formik'
 import Input from '@/components/input'
 import Password from '@/components/password'
-import {
-  ResetPasswordParams,
-  useAuthStore
-} from '@/methods/hooks/store/useAuthStore'
-import { useRouter } from 'next/navigation'
+
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'
 
-import CheckIcon from '@mui/icons-material/Check'
 import {
   codeField,
   passwordField,
@@ -23,32 +18,15 @@ import {
   resetFormikSchemaValues,
   resetYupSchema
 } from '@/app/reset/data'
+import { ResetPasswordParams, useResetPassword } from '@/hooks/useResetPassword'
+import Card from '@mui/material/Card'
 import { defaultCardStyle } from '@/consts/styles'
-import { styled } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-
-const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
+import { useResendCode } from '@/hooks/useResendCode'
 
 export default function Reset() {
-  const {
-    resendCode,
-    resetPassword,
-    error,
-    successMessage,
-    emailAddress,
-    loading
-  } = useAuthStore()
-
-  const forgotSuccess =
-    'If the email ' +
-    emailAddress +
-    ' exists in our systems then a code will have been sent to the address, please enter it below:'
-
-  const success = successMessage ?? forgotSuccess
-
-  const router = useRouter()
-  const handleSubmit = (values: ResetPasswordParams) =>
-    resetPassword(values, router)
+  const { resetPassword, error } = useResetPassword()
+  const { resendCode } = useResendCode()
+  const handleSubmit = (values: ResetPasswordParams) => resetPassword(values)
 
   const resetFormik = useFormik({
     ...resetFormikSchemaValues,
@@ -56,12 +34,7 @@ export default function Reset() {
     onSubmit: handleSubmit
   })
   return (
-    <Card variant="outlined">
-      {success && !error && !loading && (
-        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-          {success}
-        </Alert>
-      )}
+    <Card variant="outlined" sx={defaultCardStyle}>
       <Typography
         component="h1"
         variant="h4"
@@ -84,11 +57,13 @@ export default function Reset() {
         <Button onClick={resendCode} fullWidth variant="contained">
           Resend
         </Button>
-        {error && (
-          <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
-            {error}
-          </Alert>
-        )}
+        <>
+          {error && (
+            <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
+              {error}
+            </Alert>
+          )}
+        </>
       </Box>
     </Card>
   )

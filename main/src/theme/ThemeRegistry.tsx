@@ -7,7 +7,7 @@ import GlobalStyles from '@mui/material/GlobalStyles'
 import { Poppins } from 'next/font/google'
 import { BLACK, GREEN } from '@/consts/colours'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter'
-import { FeatureProvider, FeatureType } from '@/methods/featureContext'
+import { FeatureProvider, FeatureType } from '@/providers/featureContext'
 
 const poppins = Poppins({
   weight: ['400'],

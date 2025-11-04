@@ -1,3 +1,0 @@
-
-global.fetch = jest.fn();
-

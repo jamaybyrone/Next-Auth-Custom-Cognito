@@ -1,9 +1,12 @@
-import { cookies } from 'next/headers'
-import { sessionCookie } from '@/consts/cookie'
-import Log from '@/methods/logger'
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 import { userPool } from '@/consts/userpool'
-import { checkIfFirstSignInFromProvider } from '@/methods/checkIfFirstSignInFromProvider'
+import { getUserSession } from '@/methods/getUserSession'
+import Log from '@/utils/logger'
+import { createUIDForUser } from '@/methods/createUIDForUser'
+import { upsertUserSession } from '@/methods/db/upsertUserSession'
+import { getUserFromUserTable } from '@/methods/db/gerUserFromUserTable'
+import { addNewUserInUserTable } from '@/methods/db/addNewUserInUserTable'
+
 
 interface UserSession {
   id: string
@@ -15,9 +18,9 @@ interface UserSession {
 }
 
 export const customAuth = async (credentials): Promise<UserSession> => {
-  const cookieStore = await cookies()
-  const { value: webSessionId } = cookieStore.get(sessionCookie)
-  const logger = new Log('NextAuth', webSessionId)
+  const webSessionId = await getUserSession()
+
+  const logger = new Log('NextAuth')
   const { emailAddress, password, rememberMe } = credentials
 
   if (!webSessionId) {
@@ -49,22 +52,24 @@ export const customAuth = async (credentials): Promise<UserSession> => {
           const cognitoId = deCodedToken.sub
 
           resolve({
-            id: webSessionId,
+            id: cognitoId,
             email: lowerCaseEmail,
-            username: cognitoId,
             maxAge: rememberMe === 'true' ? 30 * 24 * 60 * 60 : 24 * 60 * 60
           })
         },
         onFailure: (err) => {
           if (err.message === 'Password attempts exceeded') {
-            logger.warn(' password attempted exceeded for ' + lowerCaseEmail)
+            logger.warn(
+              ' password attempted exceeded for ' + lowerCaseEmail,
+              webSessionId
+            )
             // maybe notify the user that someone has attempted to possibly compromise?
             reject(new Error('PasswordExceeded'))
           }
           if (err.message === 'User is not confirmed.') {
             reject(new Error('UserNotConfirmed'))
           }
-          logger.error(err)
+          logger.error(err, webSessionId)
           reject(new Error('Network error'))
         }
       }
@@ -75,12 +80,23 @@ export const customAuth = async (credentials): Promise<UserSession> => {
 export const customJWT = async ({ token, user, account }) => {
   const provider = account?.provider
   if (user) {
-    let name, email
-    if (provider === 'github' || provider === 'google') {
+    let uid, name, email
+    const webSessionId = await getUserSession()
+    if (provider !== 'credentials') {
+      uid = createUIDForUser(user.email ?? user.username, provider)
       name = user['name']
       email = user['email'] ?? user['id']
-      await checkIfFirstSignInFromProvider(user['id'], email, name, provider)
     }
+
+    const userRecord = await getUserFromUserTable(uid ?? user.id, webSessionId)
+    if (!userRecord && provider !== 'credentials') {
+      // first time in from provider
+      await addNewUserInUserTable(uid, email, name, provider, webSessionId)
+    } else if (!userRecord) {
+      throw 'user does not exist in Users table'
+    }
+
+    await upsertUserSession(userRecord.id, webSessionId)
 
     token.sub = user.id
     token['username'] = user['username']

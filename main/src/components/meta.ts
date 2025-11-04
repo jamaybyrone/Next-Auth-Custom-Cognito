@@ -1,7 +1,6 @@
-import { robots, SITE_NAME } from '@/consts/meta'
+import { robots } from '@/consts/meta'
 import { Metadata } from 'next'
 import { Robots } from 'next/dist/lib/metadata/types/metadata-types'
-const { NEXT_PUBLIC_LOCALE } = process.env
 
 export type pageMetaType = {
   meta: metaProps

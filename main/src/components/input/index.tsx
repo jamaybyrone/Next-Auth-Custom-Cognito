@@ -1,19 +1,20 @@
 import TextField from '@mui/material/TextField'
 import FormLabel from '@mui/material/FormLabel'
 import FormControl from '@mui/material/FormControl'
+import { FormikProps } from 'formik'
 
-interface InputProps {
+type InputProps<T extends object> = {
   label: string
-  id: string
+  id: keyof T & string
   type: string
-  placeholder: string
+  placeholder?: string
   required?: boolean
-  fullWidth: boolean
+  fullWidth?: boolean
   autoComplete?: string
-  formik: any
+  formik: FormikProps<T>
 }
 
-export default function Input({
+export default function Input<T extends object>({
   formik,
   id,
 
@@ -23,7 +24,7 @@ export default function Input({
   type,
   label,
   autoComplete
-}: Readonly<InputProps>) {
+}: Readonly<InputProps<T>>) {
   const hasError = formik.touched[id] && Boolean(formik.errors[id])
 
   return (

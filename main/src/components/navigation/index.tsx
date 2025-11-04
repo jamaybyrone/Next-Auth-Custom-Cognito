@@ -11,6 +11,7 @@ import { useState, MouseEvent } from 'react'
 import Link from '@mui/material/Link'
 import { signOut } from 'next-auth/react'
 import { Avatar } from '@mui/material'
+import NextLink from 'next/link'
 
 const linkSX = { margin: 2, color: 'white' }
 
@@ -19,10 +20,10 @@ export type UserType = {
   name: string
   image: string
 }
-interface NavigaionProps {
+interface NavigationProps {
   session?: UserType
 }
-export default function Navigation({ session }: Readonly<NavigaionProps>) {
+export default function Navigation({ session }: Readonly<NavigationProps>) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isLoggedIn = session
   const hasProfile = session?.image
@@ -44,66 +45,78 @@ export default function Navigation({ session }: Readonly<NavigaionProps>) {
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Link href={'/'} sx={linkSX}>
+            <Link href={'/'} sx={linkSX} component={NextLink}>
               Home
             </Link>
-            {isLoggedIn && (
-              <Link href={'/members'} sx={linkSX}>
-                Members area
-              </Link>
-            )}
-            {!isLoggedIn && (
-              <>
-                <Link href={'/sign-in'} sx={linkSX}>
-                  Sign in
+            <>
+              {isLoggedIn && (
+                <Link href={'/members'} sx={linkSX} component={NextLink}>
+                  Members area
                 </Link>
-                <Link href={'/sign-up'} sx={linkSX}>
-                  Sign up
-                </Link>
-              </>
-            )}
+              )}
+              {!isLoggedIn && (
+                <>
+                  <Link href={'/sign-in'} sx={linkSX} component={NextLink}>
+                    Sign in
+                  </Link>
+                  <Link href={'/sign-up'} sx={linkSX} component={NextLink}>
+                    Sign up
+                  </Link>
+                </>
+              )}
+            </>
           </Box>
-          {isLoggedIn && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                {!hasProfile && <AccountCircle />}
-                {hasProfile && (
-                  <Avatar alt={session.name} src={session.image} />
-                )}
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                {!hasProfile && (
-                  <MenuItem>
-                    <Link href={'/members/change-password'}>
-                      Change password
-                    </Link>
-                  </MenuItem>
-                )}
-                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-              </Menu>
-            </div>
-          )}
+          <>
+            {isLoggedIn && (
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <>
+                    {!hasProfile && <AccountCircle />}
+                    {hasProfile && (
+                      <Avatar alt={session.name} src={session.image} />
+                    )}
+                  </>
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <>
+                    {' '}
+                    {!hasProfile && (
+                      <MenuItem>
+                        <Link
+                          href={'/members/change-password'}
+                          component={NextLink}
+                        >
+                          Change password
+                        </Link>
+                      </MenuItem>
+                    )}
+                  </>
+                  <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+                </Menu>
+              </div>
+            )}
+          </>
         </Toolbar>
       </AppBar>
     </Box>

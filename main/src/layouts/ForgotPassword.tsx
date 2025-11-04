@@ -14,27 +14,25 @@ import {
   forgotPasswordFormikSchemaValues,
   forgotYupSchema
 } from '@/app/sign-in/data'
-import { useRouter } from 'next/navigation'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import { ForgotPasswordParams } from '@/methods/hooks/store/useAuthStore'
+
+import {
+  ForgotPasswordParams,
+  useForgotPassword
+} from '@/hooks/useForgotPasssword'
 
 interface ForgotPasswordProps {
   open: boolean
   handleClose: () => void
-  forgotPassword: (
-    values: ForgotPasswordParams,
-    router: AppRouterInstance
-  ) => void
 }
 
 export default function ForgotPassword({
   open,
-  handleClose,
-  forgotPassword
+  handleClose
 }: Readonly<ForgotPasswordProps>) {
-  const router = useRouter()
+  const { forgotPassword } = useForgotPassword()
+
   const handleSubmit = (values: ForgotPasswordParams) => {
-    forgotPassword(values, router)
+    forgotPassword(values)
     handleClose()
   }
   const forgotFormik = useFormik({

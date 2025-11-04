@@ -4,14 +4,11 @@ import Box from '@mui/material/Box'
 
 import Typography from '@mui/material/Typography'
 import { defaultCardStyle } from '@/consts/styles'
-import { styled } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-
-const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
+import Card from '@mui/material/Card'
 
 export default function Home() {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={defaultCardStyle}>
       <Typography
         component="h1"
         variant="h4"

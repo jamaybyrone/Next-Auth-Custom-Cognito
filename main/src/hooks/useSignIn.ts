@@ -38,23 +38,21 @@ export function useSignIn() {
 
       const { ok, error } = response
 
-      if (!ok) {
-        if (error?.includes('UserNotConfirmed')) {
-          await resendCodeAction({ emailAddress })
-          setEmailAddress(emailAddress)
-          enqueueSnackbar(
-            `Looks like you never confirmed your account. A confirmation code has been sent to ${emailAddress}.`,
-            { variant: 'success' }
-          )
-          router.push('/confirm')
-        } else if (error?.includes('PasswordExceeded')) {
-          setError('Your account is locked out. Try again later.')
-        } else {
-          setError('Incorrect username or password.')
-        }
-      } else {
+      if (ok) {
         setLoading(true, 'Redirecting you now...')
-        window.location.href = '/members'
+        globalThis.location.href = '/members'
+      } else if (error?.includes('UserNotConfirmed')) {
+        await resendCodeAction({ emailAddress })
+        setEmailAddress(emailAddress)
+        enqueueSnackbar(
+          `Looks like you never confirmed your account. A confirmation code has been sent to ${emailAddress}.`,
+          { variant: 'success' }
+        )
+        router.push('/confirm')
+      } else if (error?.includes('PasswordExceeded')) {
+        setError('Your account is locked out. Try again later.')
+      } else {
+        setError('Incorrect username or password.')
       }
     } catch (e) {
       logger.error(e)

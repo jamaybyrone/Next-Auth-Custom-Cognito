@@ -8,7 +8,7 @@ import Log from '@/utils/logger'
 import { getUserSession } from '@/methods/getUserSession'
 
 const forgotPasswordSchema = z.object({
-  forgotEmailAddress: z.string().email()
+  forgotEmailAddress: z.email()
 })
 
 export async function forgotPasswordAction(formData: {
@@ -24,10 +24,12 @@ export async function forgotPasswordAction(formData: {
 
   const parsed = forgotPasswordSchema.safeParse(formData)
   if (!parsed.success) {
-    logger.error(parsed.error.flatten().fieldErrors, webSessionId)
+    const pretty = z.prettifyError(parsed.error)
+
+    logger.error(pretty, webSessionId)
     return {
       success: false,
-      error: parsed.error.flatten().fieldErrors
+      error: pretty
     }
   }
 
@@ -45,7 +47,7 @@ export async function forgotPasswordAction(formData: {
     )
 
     // Cognito returns messages like “Attempt limit exceeded”
-    if (result?.toString().includes('Attempt limit exceeded')) {
+    if (JSON.stringify(result).includes('Attempt limit exceeded')) {
       logger.warn(`Attempt limit exceeded for ${cleanEmail}`, webSessionId)
       return {
         success: false,

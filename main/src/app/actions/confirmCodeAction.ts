@@ -8,7 +8,7 @@ import Log from '@/utils/logger'
 import { getUserSession } from '@/methods/getUserSession'
 
 const confirmCodeSchema = z.object({
-  emailAddress: z.string().email(),
+  emailAddress: z.email(),
   code: z.string().min(1, 'Verification code required')
 })
 
@@ -25,10 +25,12 @@ export async function confirmCodeAction(formData: {
 
   const parsed = confirmCodeSchema.safeParse(formData)
   if (!parsed.success) {
-    logger.error(parsed.error.flatten().fieldErrors, webSessionId)
+    const pretty = z.prettifyError(parsed.error)
+
+    logger.error(pretty, webSessionId)
     return {
       success: false,
-      error: parsed.error.flatten().fieldErrors
+      error: pretty
     }
   }
 
@@ -42,8 +44,11 @@ export async function confirmCodeAction(formData: {
 
     await new Promise((resolve, reject) =>
       user.confirmRegistration(cleanCode, true, (err, result) => {
-        if (err) {reject(new Error(err.message))}
-        else {resolve(result)}
+        if (err) {
+          reject(new Error(err.message))
+        } else {
+          resolve(result)
+        }
       })
     )
     logger.info(`Account confirmed for ${cleanEmail}`, webSessionId)

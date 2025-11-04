@@ -8,7 +8,7 @@ import Log from '@/utils/logger'
 import { getUserSession } from '@/methods/getUserSession'
 
 const resendSchema = z.object({
-  emailAddress: z.string().email()
+  emailAddress: z.email()
 })
 
 export async function resendCodeAction(formData: { emailAddress: string }) {
@@ -22,10 +22,12 @@ export async function resendCodeAction(formData: { emailAddress: string }) {
 
   const parsed = resendSchema.safeParse(formData)
   if (!parsed.success) {
-    logger.error(parsed.error.flatten().fieldErrors, webSessionId)
+    const pretty = z.prettifyError(parsed.error)
+
+    logger.error(pretty, webSessionId)
     return {
       success: false,
-      error: parsed.error.flatten().fieldErrors
+      error: pretty
     }
   }
 
@@ -37,8 +39,11 @@ export async function resendCodeAction(formData: { emailAddress: string }) {
 
     await new Promise((resolve, reject) =>
       user.resendConfirmationCode((err, result) => {
-        if (err) {reject(new Error(err.message))}
-        else {resolve(result)}
+        if (err) {
+          reject(new Error(err.message))
+        } else {
+          resolve(result)
+        }
       })
     )
     logger.info(`Confirmation code resent to ${cleanEmail}`, webSessionId)

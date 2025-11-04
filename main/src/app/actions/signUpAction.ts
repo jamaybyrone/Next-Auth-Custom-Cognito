@@ -7,10 +7,10 @@ import { z } from 'zod'
 import Log from '@/utils/logger'
 import { getUserSession } from '@/methods/getUserSession'
 import { userPool } from '@/consts/userpool'
-import {addNewUserInUserTable} from '@/methods/db/addNewUserInUserTable'
+import { addNewUserInUserTable } from '@/methods/db/addNewUserInUserTable'
 
 const signUpSchema = z.object({
-  emailAddress: z.string().email(),
+  emailAddress: z.email(),
   password: z.string().min(6, 'Password too short'),
   name: z.string().min(2, 'Name too short')
 })
@@ -29,8 +29,10 @@ export async function signUpAction(formData: {
 
   const parsed = signUpSchema.safeParse(formData)
   if (!parsed.success) {
-    logger.error(parsed.error.flatten().fieldErrors, webSessionId)
-    return { success: false, error: parsed.error.flatten().fieldErrors }
+    const pretty = z.prettifyError(parsed.error)
+
+    logger.error(pretty, webSessionId)
+    return { success: false, error: pretty }
   }
 
   const { emailAddress, password, name } = parsed.data
@@ -55,7 +57,7 @@ export async function signUpAction(formData: {
           if (err) {
             reject(new Error(err.message))
           } else {
-            resolve(result!)
+            resolve(result)
           }
         }
       )

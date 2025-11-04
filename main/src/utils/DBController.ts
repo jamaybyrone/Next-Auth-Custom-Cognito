@@ -11,8 +11,8 @@ const {
 } = process.env
 
 export default class DBController {
-  private client
-  private logger
+  private readonly client
+  private readonly logger
 
   constructor() {
     this.client = new Pool({
@@ -29,7 +29,7 @@ export default class DBController {
     if (LOG_LEVEL === 'debug') {
       this.logger.info('------Start DB Call------', webSession)
       this.logger.info('sql ' + sql, webSession)
-      this.logger.info('params ' + params, webSession)
+      this.logger.info('params ' + JSON.stringify(params), webSession)
       this.logger.info('------END DB Call--------', webSession)
     }
 

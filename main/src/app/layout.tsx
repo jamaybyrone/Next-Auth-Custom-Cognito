@@ -32,7 +32,7 @@ export default async function RootLayout({
       <html lang="en" style={{ height: '100%' }}>
         <body>
           <Navigation session={session?.user as UserType} />
-          <main tabIndex={0}>{children}</main>
+          <main>{children}</main>
           <Loader />
           <SnackBar />
         </body>

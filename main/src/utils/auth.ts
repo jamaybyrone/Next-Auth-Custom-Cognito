@@ -7,7 +7,6 @@ import { upsertUserSession } from '@/methods/db/upsertUserSession'
 import { getUserFromUserTable } from '@/methods/db/gerUserFromUserTable'
 import { addNewUserInUserTable } from '@/methods/db/addNewUserInUserTable'
 
-
 interface UserSession {
   id: string
   name?: string | null
@@ -27,7 +26,7 @@ export const customAuth = async (credentials): Promise<UserSession> => {
     console.error(
       'No web session found for: ' + emailAddress + ' rejecting auth'
     )
-    throw Error('No Session')
+    throw new Error('No Session')
   }
 
   const lowerCaseEmail = emailAddress.toLowerCase()
@@ -93,7 +92,7 @@ export const customJWT = async ({ token, user, account }) => {
       // first time in from provider
       await addNewUserInUserTable(uid, email, name, provider, webSessionId)
     } else if (!userRecord) {
-      throw 'user does not exist in Users table'
+      throw new Error('user does not exist in Users table')
     }
 
     await upsertUserSession(userRecord.id, webSessionId)

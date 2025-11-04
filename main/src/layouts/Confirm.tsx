@@ -18,7 +18,7 @@ import { defaultCardStyle } from '@/consts/styles'
 import Card from '@mui/material/Card'
 import { ConfirmCodeParams, useConfirmCode } from '@/hooks/useConfirmCode'
 import { useResendCode } from '@/hooks/useResendCode'
-import {  useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/hooks/store/useAuthStore'
 import { useEffect } from 'react'
 

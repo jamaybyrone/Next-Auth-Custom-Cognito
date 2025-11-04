@@ -47,10 +47,12 @@ export default function ForgotPassword({
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        component: 'form',
-        onSubmit: forgotFormik.handleSubmit,
-        noValidate: true
+      slotProps={{
+        paper: {
+          component: 'form',
+          onSubmit: forgotFormik.handleSubmit,
+          noValidate: true
+        }
       }}
     >
       <DialogTitle>Reset password</DialogTitle>

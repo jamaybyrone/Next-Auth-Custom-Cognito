@@ -8,7 +8,7 @@ import Log from '@/utils/logger'
 import { getUserSession } from '@/methods/getUserSession'
 
 const resetPasswordSchema = z.object({
-  emailAddress: z.string().email(),
+  emailAddress: z.email(),
   code: z.string().min(1, 'Verification code required'),
   confirm_password: z.string().min(6, 'Password must be at least 6 characters')
 })
@@ -43,10 +43,12 @@ export async function resetPasswordAction(formData: {
 
   const parsed = resetPasswordSchema.safeParse(formData)
   if (!parsed.success) {
-    logger.error(parsed.error.flatten().fieldErrors, webSessionId)
+    const pretty = z.prettifyError(parsed.error)
+
+    logger.error(pretty, webSessionId)
     return {
       success: false,
-      error: parsed.error.flatten().fieldErrors
+      error: pretty
     }
   }
 

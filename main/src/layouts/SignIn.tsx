@@ -27,7 +27,7 @@ import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'
 import CheckIcon from '@mui/icons-material/Check'
 import { FormEventHandler, useState } from 'react'
-import {  useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 import Password from '@/components/password'
 

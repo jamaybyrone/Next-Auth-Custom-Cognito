@@ -6,7 +6,7 @@ on:
       - '**'
 
 env:
-  NODE_VERSION: '21'
+  NODE_VERSION: '23'
   NEXT_PUBLIC_URL: 'http://localhost:3000'
   NEXT_PUBLIC_LOCALE: 'en-gb'
   MEMBERS_URL: "http://localhost:3001"

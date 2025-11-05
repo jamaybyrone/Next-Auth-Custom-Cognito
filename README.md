@@ -1,13 +1,13 @@
 # Next Auth Custom Cognito Signin, with additional providers.
 
-**NOTE** 14/11/2024 - I am in the process of switching this to postgress instead of dynamo and using database session
-
 ## Demo
 
 [Demo](https://github.com/user-attachments/assets/6f930454-f99d-414c-a32a-a6910e524699)
 
 ## Prerequisites
-You will need to have an [Amazon Cognito Userpool](https://aws.amazon.com/pm/cognito/) and a [DynamoDB](https://aws.amazon.com/pm/dynamodb/) created prior to this.
+You will need to have an [Amazon Cognito Userpool](https://aws.amazon.com/pm/cognito/) and a [PostgreSQL](https://www.postgresql.org/download/) created prior to this.
+
+You can find the SQL schema in the SQL folder.
 
 If you do not want to use Github and or Google Signin, you can disable this in the .env by setting the enabled flags to 0.
 
@@ -25,7 +25,9 @@ Using cognito, users are able to signin, signup, confirm account, forgot passwor
 There are two applications in this project called 'main' and 'members', main is the signin, signup etc application..
 whereas members is a protected area only accessible once logged in.
 
-Once users are signed in, they're put into a very simple user table in [DynamoDB](https://aws.amazon.com/pm/dynamodb/).
+Once users are signed in, they're put into a very simple user table in [PostgreSQL](https://www.postgresql.org/download/).
+
+All signed-in users sessions are stored in a logged in history table. This gives you traceability across devices and accounts.
 
 So if you come across a bug, raise a PR!, if you think there is a better way of doing something, raise a PR!
 
@@ -37,10 +39,12 @@ This project uses the following NextJS features:
 - [Next Auth](https://next-auth.js.org/)
 - [Feature Flags](https://vercel.com/docs/workflow-collaboration/feature-flags/flags-pattern-nextjs)
 - [Multi Zones](https://nextjs.org/docs/pages/building-your-application/deploying/multi-zones)
-- [Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware)
+- [Proxy (middleware)](https://nextjs.org/docs/app/api-reference/file-conventions/proxy)
 
 For styling/Components [Material UI](https://mui.com/material-ui/) for the layout and overall design these are all taken from: [Free Material UI templates](https://mui.com/material-ui/getting-started/templates/) all components are examples from [Material uis component library](https://mui.com/material-ui/all-components/).
 
+
+**NOTE** 05/11/2025 - I will be re adding the tests soon
 For tests this project uses [Jest](https://jestjs.io/), [React testing library](https://testing-library.com/docs/react-testing-library/intro/) and [Cypress](https://www.cypress.io/) for acceptance criteria.
 
 
@@ -67,6 +71,8 @@ yarn install
 ```
 
 ## Running Locally
+You will also need to have PostgreSQL running and run the schema found in the SQL folder.
+
 You will need to set up a .env file taken from the .env.example in each project.
 
 Once you have installed simply run in each of the projects, main will run on port 3000 and members will run on 3001
@@ -75,7 +81,7 @@ Once you have installed simply run in each of the projects, main will run on por
 npm run dev
 ```
 
-
+**NOTE** 05/11/2025 - I will be re adding the tests soon
 ## Tests
 To run:
 ```bash
@@ -88,14 +94,7 @@ npm run test:cypress
 ### Queries
 Why did I make this? funsies...
 
-Why stick users in a Dynamo DB? Soooo the DynamoDB is just used as a way to store a user, don't worry no credentials are stored, it's just a means to associate a user to a registered account with a unique ID, you could tie this into your own system, such as an ordering system, booking system etc....
-
-Okay but why dynamoDB as its none relational? Because I'm cheap and this is a demo app...
-
-Why use API endpoints instead of server side actions in NextJS? I basically prefer it, easier to detach.
-I usually prefer a client side action to a server side endpoint, easier on the ui for spinners, potential for code base to be separate and detachable,
-for example you could just delete the api endpoints and create an express app that handles those calls, API gateway with lambda association.... anything
-
+Why stick users in a users table? Soooo the users table is just used as a way to store a user, don't worry no credentials are stored, it's just a means to associate a user to a registered account with a unique ID, you could tie this into your own system, such as an ordering system, booking system etc....
 
 Why no `<SessionProvider>`? So it's not really needed when doing the App directory route, that would just call the session callback method in NextAuth which I don't have because im doing everything for sessions severside and using the JWT strategy.
 

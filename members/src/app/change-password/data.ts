@@ -26,7 +26,7 @@ export const changePasswordYupSchema = yup.object({
   passwordConfirmation: yup
     .string()
     .required('No password provided.')
-    .oneOf([yup.ref('newPassword')!], 'Passwords must match')
+    .oneOf([yup.ref('newPassword')], 'Passwords must match')
 })
 
 export const changePasswordFormikSchemaValues = {

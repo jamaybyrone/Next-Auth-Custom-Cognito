@@ -5,7 +5,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { z } from 'zod'
 
 import Log from '@/utils/logger'
-import { getUserSession } from '@/methods/getUserSession'
+import { getWebSession } from '@/methods/getWebSession'
 import { userPool } from '@/consts/userpool'
 import { addNewUserInUserTable } from '@/methods/db/addNewUserInUserTable'
 
@@ -20,7 +20,7 @@ export async function signUpAction(formData: {
   password: string
   name: string
 }) {
-  const webSessionId = await getUserSession()
+  const webSessionId = await getWebSession()
   if (!webSessionId) {
     return { success: false, error: 'No session found' }
   }

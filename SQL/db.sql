@@ -13,7 +13,6 @@ CREATE TABLE LoggedInHistory (
              ID SERIAL PRIMARY KEY,
              UserId INT NOT NULL REFERENCES Users(ID) ON DELETE CASCADE,
              SessionId VARCHAR(50),
-             ForceSignOut BOOLEAN DEFAULT FALSE,
              CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
              UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
              DeletedAt TIMESTAMP NULL

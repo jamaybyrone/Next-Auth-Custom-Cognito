@@ -10,7 +10,6 @@ import Menu from '@mui/material/Menu'
 import { useState, MouseEvent } from 'react'
 import Link from '@mui/material/Link'
 import { signOut } from 'next-auth/react'
-import { Avatar } from '@mui/material'
 import NextLink from 'next/link'
 
 const linkSX = { margin: 2, color: 'white' }
@@ -21,12 +20,10 @@ export type UserType = {
   image: string
 }
 interface NavigationProps {
-  session?: UserType
+  isLoggedIn: boolean
 }
-export default function Navigation({ session }: Readonly<NavigationProps>) {
+export default function Navigation({ isLoggedIn }: Readonly<NavigationProps>) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const isLoggedIn = session
-  const hasProfile = session?.image
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -77,12 +74,7 @@ export default function Navigation({ session }: Readonly<NavigationProps>) {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <>
-                    {!hasProfile && <AccountCircle />}
-                    {hasProfile && (
-                      <Avatar alt={session.name} src={session.image} />
-                    )}
-                  </>
+                  <AccountCircle />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -99,19 +91,16 @@ export default function Navigation({ session }: Readonly<NavigationProps>) {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <>
-                    {' '}
-                    {!hasProfile && (
-                      <MenuItem>
-                        <Link
-                          href={'/members/change-password'}
-                          component={NextLink}
-                        >
-                          Change password
-                        </Link>
-                      </MenuItem>
-                    )}
-                  </>
+                  {!isLoggedIn && (
+                    <MenuItem>
+                      <Link
+                        href={'/members/change-password'}
+                        component={NextLink}
+                      >
+                        Change password
+                      </Link>
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
                 </Menu>
               </div>

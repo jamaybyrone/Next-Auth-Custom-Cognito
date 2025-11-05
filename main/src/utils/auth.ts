@@ -1,6 +1,6 @@
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 import { userPool } from '@/consts/userpool'
-import { getUserSession } from '@/methods/getUserSession'
+import { getWebSession } from '@/methods/getWebSession'
 import Log from '@/utils/logger'
 import { createUIDForUser } from '@/methods/createUIDForUser'
 import { upsertUserSession } from '@/methods/db/upsertUserSession'
@@ -17,7 +17,7 @@ interface UserSession {
 }
 
 export const customAuth = async (credentials): Promise<UserSession> => {
-  const webSessionId = await getUserSession()
+  const webSessionId = await getWebSession()
 
   const logger = new Log('NextAuth')
   const { emailAddress, password, rememberMe } = credentials
@@ -80,27 +80,43 @@ export const customJWT = async ({ token, user, account }) => {
   const provider = account?.provider
   if (user) {
     let uid, name, email
-    const webSessionId = await getUserSession()
+    const webSessionId = await getWebSession()
     if (provider !== 'credentials') {
       uid = createUIDForUser(user.email ?? user.username, provider)
       name = user['name']
       email = user['email'] ?? user['id']
     }
 
-    const userRecord = await getUserFromUserTable(uid ?? user.id, webSessionId)
+    let userRecord = await getUserFromUserTable(uid ?? user.id, webSessionId)
     if (!userRecord && provider !== 'credentials') {
       // first time in from provider
-      await addNewUserInUserTable(uid, email, name, provider, webSessionId)
+      userRecord = await addNewUserInUserTable(
+        uid,
+        email,
+        name,
+        provider,
+        webSessionId
+      )
     } else if (!userRecord) {
-      throw new Error('user does not exist in Users table')
+      console.error(
+        'A Cognito user has signed in.. but they didnt exist in the users table.. did someone skip sign up?'
+      )
+      userRecord = await addNewUserInUserTable(
+        user.id,
+        'signup',
+        'skipped',
+        'cognito',
+        webSessionId
+      )
     }
 
     await upsertUserSession(userRecord.id, webSessionId)
 
-    token.sub = user.id
-    token['username'] = user['username']
-    token['maxAge'] = user['maxAge']
+    token['id'] = userRecord.id
+    token['fullName'] = user['fullName']
+    token['webSessionId'] = webSessionId
     token['provider'] = provider
+    token['maxAge'] = user['maxAge']
   }
   return token
 }

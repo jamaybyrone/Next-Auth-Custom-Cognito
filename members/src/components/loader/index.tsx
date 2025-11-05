@@ -4,13 +4,9 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { useMemberStore } from '@/methods/hooks/store/useMemberStore'
+import { useMemberStore } from '@/app/store/useMemberStore'
 
-type LoaderProps = {
-  override?: boolean
-}
-
-export default function Loader({ override = false }: Readonly<LoaderProps>) {
+export default function Loader() {
   const { loading, loadingStatus } = useMemberStore()
   return (
     <>

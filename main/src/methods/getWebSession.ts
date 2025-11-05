@@ -3,7 +3,7 @@
 import { cookies, headers } from 'next/headers'
 import { sessionCookie } from '@/consts/cookie'
 
-export const getUserSession = async () => {
+export const getWebSession = async () => {
   const headerList = await headers()
   const cookieStore = await cookies()
 

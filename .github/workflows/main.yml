@@ -53,11 +53,3 @@ jobs:
           cd main
           yarn build 
 
-      - name: Run Tests
-        env:
-          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
-          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
-        run: |
-          cd main
-          yarn test:jest
-

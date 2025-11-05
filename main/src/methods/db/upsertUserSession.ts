@@ -2,12 +2,12 @@
 
 import DBController from '@/utils/DBController'
 
-// if your running this in a container, remember this is server side so this will be initialized once
-// not per invocation.... only once... until the garbage collector is ran...
-// remember your in server land now kids...
-// server = everyone, client = yo browser boyo!
-// if your running this in open-next, then the below time/memory saver is pointless for you...
-
+/**
+ * Single instance of the DB controller for this server runtime.
+ * - In a container or long-lived process: instantiated once and reused.
+ * - In serverless runtimes (e.g. Vercel / OpenNext): this may still be re-created per invocation,
+ *   but it’s cheap and safe - like me.
+ */
 let DB: DBController
 
 if (!DB) {

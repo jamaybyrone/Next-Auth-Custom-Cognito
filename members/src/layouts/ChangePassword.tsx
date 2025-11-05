@@ -1,9 +1,5 @@
 'use client'
 
-import {
-  ChangePasswordParams,
-  useMemberStore
-} from '@/methods/hooks/store/useMemberStore'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import {
@@ -26,6 +22,10 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import MuiCard from '@mui/material/Card'
 import { defaultCardStyle } from '@/consts/styles'
+import {
+  ChangePasswordParams,
+  useMemberStore
+} from '@/app/store/useMemberStore'
 
 const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
 

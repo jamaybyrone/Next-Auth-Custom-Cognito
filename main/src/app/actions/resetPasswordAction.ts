@@ -5,7 +5,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { z } from 'zod'
 import { userPool } from '@/consts/userpool'
 import Log from '@/utils/logger'
-import { getUserSession } from '@/methods/getUserSession'
+import { getWebSession } from '@/methods/getWebSession'
 
 const resetPasswordSchema = z.object({
   emailAddress: z.email(),
@@ -33,7 +33,7 @@ export async function resetPasswordAction(formData: {
   code: string
   confirm_password: string
 }) {
-  const webSessionId = await getUserSession()
+  const webSessionId = await getWebSession()
 
   if (!webSessionId) {
     return { success: false, error: 'No session found' }

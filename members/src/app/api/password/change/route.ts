@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import {AuthenticationDetails, CognitoUser} from 'amazon-cognito-identity-js'
+import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 
 import DOMPurify from 'isomorphic-dompurify'
 import { cookies } from 'next/headers'
@@ -9,14 +9,19 @@ import Log from '@/methods/logger'
 import { userPool } from '@/consts/userpool'
 import { z } from 'zod'
 
-import {getServerSession} from 'next-auth'
+import { getServerSession } from 'next-auth'
 
 const schema = z.object({
   existingPassword: z.string(),
   newPassword: z.string()
 })
 
-async function changeUserPassword(email, existingPassword, newPassword, logger) {
+async function changeUserPassword(
+  email,
+  existingPassword,
+  newPassword,
+  logger
+) {
   const authenticationData = {
     Username: email,
     Password: existingPassword
@@ -24,32 +29,30 @@ async function changeUserPassword(email, existingPassword, newPassword, logger) 
 
   const user = new CognitoUser({ Username: email, Pool: userPool })
 
-  const authenticationDetails = new AuthenticationDetails(
-      authenticationData
-  )
+  const authenticationDetails = new AuthenticationDetails(authenticationData)
 
-  return await new Promise((resolve, reject) => user.authenticateUser(authenticationDetails, {
-    onSuccess: function (_result) {
-      user.changePassword(
+  return await new Promise((resolve, reject) =>
+    user.authenticateUser(authenticationDetails, {
+      onSuccess: function () {
+        user.changePassword(
           existingPassword,
           newPassword,
           function (err, result) {
             if (err) {
               logger.error(err.message)
-              reject(Error(err.message))
+              reject(new Error(err.message))
             }
             resolve(result)
           }
-      )
+        )
+      },
 
-    },
-
-    onFailure: function (err) {
-      logger.error(err.message)
-      reject(Error(err.message))
-    }
-  }))
-
+      onFailure: function (err) {
+        logger.error(err.message)
+        reject(new Error(err.message))
+      }
+    })
+  )
 }
 
 export async function POST(request: NextRequest) {
@@ -65,8 +68,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'no user session' }, { status: 401 })
   }
 
-
-
   const data = await request.json()
   const response = schema.safeParse(data)
   if (!response.success) {
@@ -75,7 +76,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: errors }, { status: 400 })
   }
 
-
   const { existingPassword, newPassword } = data
 
   const cleanExistingPassword = DOMPurify.sanitize(existingPassword)
@@ -83,15 +83,15 @@ export async function POST(request: NextRequest) {
 
   let status = 200
 
-  await changeUserPassword(session.user.email, cleanExistingPassword, cleanNewPassword, logger).catch((e)=>{
+  await changeUserPassword(
+    session.user.email,
+    cleanExistingPassword,
+    cleanNewPassword,
+    logger
+  ).catch((e) => {
     logger.error(e)
     status = 400
   })
 
-
-
-
-
-
-  return NextResponse.json({  }, { status: status })
+  return NextResponse.json({}, { status: status })
 }

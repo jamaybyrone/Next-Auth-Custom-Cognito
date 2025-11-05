@@ -1,28 +1,33 @@
-import { default as CheckThatBox } from '@mui/material/Checkbox'
-import { FormControlLabel } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import { FormikProps } from 'formik'
 
-interface CheckboxProps {
-  label: string
-  id: string
-  formik: any
+type CheckboxProps<T extends object> = {
+    label: string
+    id: keyof T & string
+    formik: FormikProps<T>
 }
-export default function Checkbox({
-  formik,
-  id,
-  label
-}: Readonly<CheckboxProps>) {
-  return (
-    <FormControlLabel
-      control={
-        <CheckThatBox
-          color="primary"
-          name={id}
-          id={id}
-          value={true}
-          onChange={formik.handleChange}
+
+export default function FormikCheckbox<T extends object>({
+                                                             formik,
+                                                             id,
+                                                             label
+                                                         }: Readonly<CheckboxProps<T>>) {
+    const checked = Boolean(formik.values[id])
+
+    return (
+        <FormControlLabel
+            label={label}
+            control={
+                <Checkbox
+                    id={id}
+                    name={id}
+                    color="primary"
+                    checked={checked}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+            }
         />
-      }
-      label={label}
-    />
-  )
+    )
 }

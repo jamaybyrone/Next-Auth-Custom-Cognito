@@ -10,22 +10,14 @@ import Menu from '@mui/material/Menu'
 import { useState, MouseEvent } from 'react'
 import Link from '@mui/material/Link'
 import { signOut } from 'next-auth/react'
-import { Avatar } from '@mui/material'
 
 const linkSX = { margin: 2, color: 'white' }
 
-export type UserType = {
-  id: string
-  name: string
-  image: string
-}
 interface NavigaionProps {
-  session?: UserType
+  isLoggedIn: boolean
 }
-export default function Navigation({ session }: Readonly<NavigaionProps>) {
+export default function Navigation({ isLoggedIn }: Readonly<NavigaionProps>) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const isLoggedIn = session
-  const hasProfile = session?.image
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -73,10 +65,7 @@ export default function Navigation({ session }: Readonly<NavigaionProps>) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                {!hasProfile && <AccountCircle />}
-                {hasProfile && (
-                  <Avatar alt={session.name} src={session.image} />
-                )}
+                <AccountCircle />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -93,7 +82,7 @@ export default function Navigation({ session }: Readonly<NavigaionProps>) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {!hasProfile && (
+                {!isLoggedIn && (
                   <MenuItem>
                     <Link href={'/members/change-password'}>
                       Change password

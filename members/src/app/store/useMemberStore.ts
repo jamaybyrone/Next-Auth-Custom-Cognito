@@ -24,7 +24,7 @@ const logger = new Log('memberStore')
 
 export const useMemberStore = create<MemberState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       emailAddress: '',
       successMessage: undefined,
       error: undefined,

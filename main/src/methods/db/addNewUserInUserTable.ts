@@ -9,6 +9,10 @@ import DBController from '@/utils/DBController'
  *   but it’s cheap and safe - like me.
  */
 let DB: DBController
+
+if (!DB) {
+  DB = new DBController()
+}
 export const addNewUserInUserTable = async (
   uid,
   email,
@@ -18,7 +22,7 @@ export const addNewUserInUserTable = async (
 ) => {
   const insertQuery = `
     INSERT INTO Users (UUID, Email, FullName,  Provider)
-    VALUES ($1, $2, $3, $4);
+    VALUES ($1, $2, $3, $4) RETURNING *;
   `
   const result = await DB.query(
     insertQuery,

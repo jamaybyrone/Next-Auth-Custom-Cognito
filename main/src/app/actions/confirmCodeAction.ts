@@ -5,7 +5,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { z } from 'zod'
 import { userPool } from '@/consts/userpool'
 import Log from '@/utils/logger'
-import { getUserSession } from '@/methods/getUserSession'
+import { getWebSession } from '@/methods/getWebSession'
 
 const confirmCodeSchema = z.object({
   emailAddress: z.email(),
@@ -16,7 +16,7 @@ export async function confirmCodeAction(formData: {
   emailAddress: string
   code: string
 }) {
-  const webSessionId = await getUserSession()
+  const webSessionId = await getWebSession()
   if (!webSessionId) {
     return { success: false, error: 'No session found' }
   }

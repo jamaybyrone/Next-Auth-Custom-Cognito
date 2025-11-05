@@ -5,7 +5,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { z } from 'zod'
 import { userPool } from '@/consts/userpool'
 import Log from '@/utils/logger'
-import { getUserSession } from '@/methods/getUserSession'
+import { getWebSession } from '@/methods/getWebSession'
 
 const forgotPasswordSchema = z.object({
   forgotEmailAddress: z.email()
@@ -14,7 +14,7 @@ const forgotPasswordSchema = z.object({
 export async function forgotPasswordAction(formData: {
   forgotEmailAddress: string
 }) {
-  const webSessionId = await getUserSession()
+  const webSessionId = await getWebSession()
 
   if (!webSessionId) {
     return { success: false, error: 'No session found' }

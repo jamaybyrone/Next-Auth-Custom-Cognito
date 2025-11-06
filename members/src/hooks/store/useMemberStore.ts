@@ -1,16 +1,12 @@
-import { create } from 'zustand'
+'use client'
 import { v4 as uuidv4 } from 'uuid'
+
 import Cookies from 'js-cookie'
+import { create } from 'zustand'
 import { sessionCookie } from '@/consts/cookie'
 import { SnackbarMessage } from '@/components/SnackBar'
 
-export interface AuthState {
-  webSessionId: string
-  loading: boolean
-  loadingStatus?: string
-  emailAddress: string
-  setLoading: (loading: boolean, status?: string) => void
-  setEmailAddress: (email: string) => void
+export interface MemberState {
   snackbars: SnackbarMessage[]
   enqueueSnackbar: (
     message: string,
@@ -18,16 +14,22 @@ export interface AuthState {
   ) => void
   closeSnackbar: (id: string) => void
   removeSnackbar: (id: string) => void
+  webSessionId: string
+  loading: boolean
+  loadingStatus?: string
+  setLoading: (loading: boolean, status?: string) => void
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useMemberStore = create<MemberState>((set) => ({
   webSessionId: Cookies.get(sessionCookie),
+  snackbars: [],
   loading: false,
   loadingStatus: undefined,
-  snackbars: [],
-  emailAddress: '',
-  setEmailAddress: (emailAddress) => set({ emailAddress }),
-
+  setLoading: (loading, status) =>
+    set({
+      loading,
+      loadingStatus: status ?? undefined
+    }),
   enqueueSnackbar: (message, options = {}) =>
     set((state) => ({
       snackbars: [
@@ -50,7 +52,5 @@ export const useAuthStore = create<AuthState>((set) => ({
   removeSnackbar: (id) =>
     set((state) => ({
       snackbars: state.snackbars.filter((s) => s.id !== id)
-    })),
-
-  setLoading: (loading, loadingStatus) => set({ loading, loadingStatus })
+    }))
 }))

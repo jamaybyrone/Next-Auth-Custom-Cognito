@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
 import { useFormik } from 'formik'
-import Input from '@/components/input'
+import Input from '../components/Input'
 import {
   forgotEmailAddress,
   forgotPasswordFormikSchemaValues,

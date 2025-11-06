@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-import Log from '@/methods/logger'
+import Log from '@/utils/logger'
 
 const {
   DATABASE_HOST,

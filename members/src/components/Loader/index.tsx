@@ -4,7 +4,7 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { useMemberStore } from '@/app/store/useMemberStore'
+import { useMemberStore } from '@/hooks/store/useMemberStore'
 
 export default function Loader() {
   const { loading, loadingStatus } = useMemberStore()

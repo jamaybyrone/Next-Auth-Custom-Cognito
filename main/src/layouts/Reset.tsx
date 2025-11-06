@@ -5,8 +5,8 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import { useFormik } from 'formik'
-import Input from '@/components/input'
-import Password from '@/components/password'
+import Input from '../components/Input'
+import Password from '../components/Password'
 
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'

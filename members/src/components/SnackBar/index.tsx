@@ -6,7 +6,7 @@ import {
   SnackbarTransition
 } from '@/components/SnackBar/Transistions'
 import React from 'react'
-import { useAuthStore } from '@/hooks/store/useAuthStore'
+import { useMemberStore } from '@/hooks/store/useMemberStore'
 
 type SnackbarVariant = 'success' | 'error' | 'warning' | 'info'
 
@@ -19,7 +19,7 @@ export interface SnackbarMessage {
   autoHideDuration?: number
 }
 export const SnackBar = () => {
-  const { snackbars, closeSnackbar, removeSnackbar } = useAuthStore()
+  const { snackbars, closeSnackbar, removeSnackbar } = useMemberStore()
 
   return (
     <>

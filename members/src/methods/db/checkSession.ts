@@ -1,6 +1,6 @@
 'use server'
 
-import DBController from '@/methods/DBController'
+import DBController from '@/utils/DBController'
 
 /**
  * Single instance of the DB controller for this server runtime.

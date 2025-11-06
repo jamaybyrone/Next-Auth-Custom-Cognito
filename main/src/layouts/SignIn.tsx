@@ -15,8 +15,8 @@ import ForgotPassword from './ForgotPassword'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import GoogleIcon from '@mui/icons-material/Google'
 
-import Input from '@/components/input'
-import Checkbox from '@/components/checkbox'
+import Input from '../components/Input'
+import Checkbox from '../components/CheckBox'
 import {
   emailField,
   passwordField,
@@ -29,7 +29,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-import Password from '@/components/password'
+import Password from '../components/Password'
 
 import { useAuthStore } from '@/hooks/store/useAuthStore'
 import { SignInParams, useSignIn } from '@/hooks/useSignIn'

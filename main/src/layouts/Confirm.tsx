@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useFormik } from 'formik'
-import Input from '@/components/input'
+import Input from '../components/Input'
 
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'

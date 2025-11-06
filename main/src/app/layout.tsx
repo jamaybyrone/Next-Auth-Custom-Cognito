@@ -1,11 +1,11 @@
 import ThemeRegistry from '@/theme/ThemeRegistry'
 
 import { ReactNode } from 'react'
-import Loader from '@/components/loader'
+import Loader from '../components/Loader'
 import { Metadata } from 'next'
 import { HTTPS_WWW_MAIN_DOMAIN } from '@/consts/url'
 import { showGitHub, showGoogle } from '@/flags'
-import Navigation from '@/components/navigation'
+import Navigation from '../components/Navigation'
 import { SnackBar } from '@/components/SnackBar'
 import { checkSession } from '@/methods/db/checkSession'
 import { getWebSession } from '@/methods/getWebSession'

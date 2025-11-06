@@ -1,12 +1,12 @@
 import ThemeRegistry from '@/theme/ThemeRegistry'
 
 import { ReactNode } from 'react'
-import Loader from '@/components/loader'
+import Loader from '../components/Loader'
 
 import { Metadata } from 'next'
 import { HTTPS_WWW_MAIN_DOMAIN } from '@/consts/url'
 import { redirect } from 'next/navigation'
-import Navigation from '@/components/navigation'
+import Navigation from '../components/Navigation'
 import { getWebSession } from '@/methods/getWebSession'
 import { checkSession } from '@/methods/db/checkSession'
 import { getServerSideSessionFromToken } from '@/methods/getServerSideSessionFromToken'

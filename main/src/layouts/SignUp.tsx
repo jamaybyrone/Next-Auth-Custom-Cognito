@@ -9,7 +9,7 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import { useFormik } from 'formik'
-import Input from '@/components/input'
+import Input from '../components/Input'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import {
@@ -23,7 +23,7 @@ import {
 
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'
-import Password from '@/components/password'
+import Password from '../components/Password'
 import { useFeatures } from '@/providers/featureContext'
 import Card from '@mui/material/Card'
 import { defaultCardStyle } from '@/consts/styles'

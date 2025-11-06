@@ -90,6 +90,8 @@ npm run test:jest
 npm run test:cypress
 ```
 
+### Duplication
+So the components and utils will be duplicated in each project, create yourself a nice lil ui/util package to share between the projects. Get creative!
 
 ### Queries
 Why did I make this? funsies...

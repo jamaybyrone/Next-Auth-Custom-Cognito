@@ -9,7 +9,7 @@ You will need to have an [Amazon Cognito Userpool](https://aws.amazon.com/pm/cog
 
 You can find the SQL schema in the SQL folder.
 
-If you do not want to use Github and or Google Signin, you can disable this in the .env by setting the enabled flags to 0.
+If you do not want to use GitHub and or Google Signin, you can disable this in the .env by setting the enabled flags to 0.
 
 
 ## Description
@@ -90,6 +90,14 @@ npm run test:jest
 npm run test:cypress
 ```
 
+### Freebies
+
+Enjoy my lil solution to constantly have a valid WebSession ID... (in proxy) this means you can always trace users and what they do, backend and frontend.
+
+Couple the above with the server/client side logger and you have fully readable logs both client and server side, Add in dynatrace to your solution and you have a full circle of traceability for when things go wrong!
+
+DB controller, A simple lil thing that can come in handy when debugging and tracing user queries by web session id.
+
 ### Duplication
 So the components and utils will be duplicated in each project, create yourself a nice lil ui/util package to share between the projects. Get creative!
 
@@ -100,4 +108,4 @@ Why stick users in a users table? Soooo the users table is just used as a way to
 
 Why no `<SessionProvider>`? So it's not really needed when doing the App directory route, that would just call the session callback method in NextAuth which I don't have because im doing everything for sessions severside and using the JWT strategy.
 
-Who are ya? [ME!](http://www.jamiebyrne.com)
+Who are am I?! [Jamie B!](http://www.jamiebyrne.com)

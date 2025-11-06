@@ -46,7 +46,6 @@ export async function forgotPasswordAction(formData: {
       })
     )
 
-    // Cognito returns messages like “Attempt limit exceeded”
     if (JSON.stringify(result).includes('Attempt limit exceeded')) {
       logger.warn(`Attempt limit exceeded for ${cleanEmail}`, webSessionId)
       return {

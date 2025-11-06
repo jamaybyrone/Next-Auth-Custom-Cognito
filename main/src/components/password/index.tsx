@@ -12,7 +12,7 @@ import { FormikProps } from 'formik'
 
 type PasswordProps<T extends object> = {
   label: string
-  id: keyof T & string
+  id: string
   placeholder?: string
   required?: boolean
   autoFocus?: boolean
@@ -64,7 +64,9 @@ export default function Password<T extends object>({
           </InputAdornment>
         }
       />
-      {hasError && <FormHelperText error>{formik.errors[id]}</FormHelperText>}
+      {hasError && (
+        <FormHelperText error>{String(formik.errors[id])}</FormHelperText>
+      )}
     </FormControl>
   )
 }

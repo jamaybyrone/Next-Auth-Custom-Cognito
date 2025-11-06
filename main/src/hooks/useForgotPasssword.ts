@@ -13,7 +13,8 @@ export interface ForgotPasswordParams {
 }
 
 export function useForgotPassword() {
-  const { setEmailAddress, setLoading, enqueueSnackbar } = useAuthStore()
+  const { setEmailAddress, setLoading, enqueueSnackbar, webSessionId } =
+    useAuthStore()
   const router = useRouter()
 
   const forgotPassword = async ({
@@ -29,7 +30,7 @@ export function useForgotPassword() {
       })
       router.push('/reset')
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {
       setLoading(false)

@@ -1,8 +1,11 @@
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 import { SnackbarTransition } from '@/components/SnackBar/Transistions'
+import Cookies from 'js-cookie'
+import { sessionCookie } from '@/consts/cookie'
 
 export interface AuthState {
+  webSessionId: string
   loading: boolean
   loadingStatus?: string
   emailAddress: string
@@ -26,6 +29,7 @@ export interface SnackbarMessage {
   autoHideDuration?: number
 }
 export const useAuthStore = create<AuthState>((set) => ({
+  webSessionId: Cookies.get(sessionCookie),
   loading: false,
   loadingStatus: undefined,
   snackbars: [],

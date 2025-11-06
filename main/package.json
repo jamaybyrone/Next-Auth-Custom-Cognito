@@ -23,6 +23,7 @@
     "amazon-cognito-identity-js": "6.3.15",
     "formik": "2.4.6",
     "isomorphic-dompurify": "2.31.0",
+    "js-cookie": "^3.0.5",
     "next": "16.0.1",
     "next-auth": "4.24.13",
     "pg": "8.16.3",

@@ -4,7 +4,7 @@ import { FormikProps } from 'formik'
 
 type CheckboxProps<T extends object> = {
   label: string
-  id: keyof T & string
+  id: string
   formik: FormikProps<T>
 }
 

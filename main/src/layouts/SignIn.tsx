@@ -26,7 +26,7 @@ import {
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'
 import CheckIcon from '@mui/icons-material/Check'
-import { FormEventHandler, useState } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 import Password from '@/components/password'
@@ -84,7 +84,7 @@ export default function SignIn() {
       </Typography>
       <Box
         component="form"
-        onSubmit={signInFormik.handleSubmit as FormEventHandler<HTMLDivElement>}
+        onSubmit={signInFormik.handleSubmit}
         noValidate
         sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
       >

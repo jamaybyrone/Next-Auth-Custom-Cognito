@@ -14,7 +14,8 @@ export interface ResetPasswordParams {
 }
 
 export function useResetPassword() {
-  const { emailAddress, setLoading, enqueueSnackbar } = useAuthStore()
+  const { emailAddress, setLoading, enqueueSnackbar, webSessionId } =
+    useAuthStore()
   const [error, setError] = useState<string>('')
   const router = useRouter()
 
@@ -23,7 +24,7 @@ export function useResetPassword() {
     setError('')
 
     try {
-      const { success } = resetPasswordAction({
+      const { success } = await resetPasswordAction({
         emailAddress,
         code,
         confirm_password: password
@@ -35,10 +36,11 @@ export function useResetPassword() {
         })
         router.push('/sign-in')
       } else {
+        // possible errors: LimitExceededException, CodeMismatchException, etc...
         setError('Invalid code, try again.')
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {
       setLoading(false)

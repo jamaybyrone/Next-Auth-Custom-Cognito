@@ -16,7 +16,8 @@ export interface SignInParams {
 }
 
 export function useSignIn() {
-  const { setLoading, setEmailAddress, enqueueSnackbar } = useAuthStore()
+  const { setLoading, setEmailAddress, enqueueSnackbar, webSessionId } =
+    useAuthStore()
   const [error, setError] = useState<string>('')
   const router = useRouter()
 
@@ -55,7 +56,7 @@ export function useSignIn() {
         setError('Incorrect username or password.')
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {
       setLoading(false)

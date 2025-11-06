@@ -16,7 +16,8 @@ export interface SignUpParams {
 }
 
 export function useSignUp() {
-  const { setEmailAddress, setLoading, enqueueSnackbar } = useAuthStore()
+  const { setEmailAddress, setLoading, enqueueSnackbar, webSessionId } =
+    useAuthStore()
   const [error, setError] = useState<string>('')
   const router = useRouter()
 
@@ -37,7 +38,7 @@ export function useSignUp() {
         setError(`${emailAddress} may already be in use.`)
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {
       setLoading(false)

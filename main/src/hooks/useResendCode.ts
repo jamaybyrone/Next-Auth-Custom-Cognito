@@ -7,7 +7,8 @@ import { resendCodeAction } from '@/app/actions/resendCode'
 const logger = new Log('useResendCode')
 
 export function useResendCode() {
-  const { emailAddress, setLoading, enqueueSnackbar } = useAuthStore()
+  const { emailAddress, setLoading, enqueueSnackbar, webSessionId } =
+    useAuthStore()
 
   const resendCode = async () => {
     setLoading(true, 'Resending confirmation code...')
@@ -18,7 +19,7 @@ export function useResendCode() {
         variant: 'success'
       })
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {
       setLoading(false)

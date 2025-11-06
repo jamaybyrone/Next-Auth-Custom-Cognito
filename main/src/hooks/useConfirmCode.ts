@@ -13,7 +13,8 @@ export interface ConfirmCodeParams {
 }
 
 export function useConfirmCode() {
-  const { emailAddress, setLoading, enqueueSnackbar } = useAuthStore()
+  const { emailAddress, setLoading, enqueueSnackbar, webSessionId } =
+    useAuthStore()
   const [error, setError] = useState<string>('')
   const router = useRouter()
 
@@ -36,7 +37,7 @@ export function useConfirmCode() {
         setError('Invalid code, try again.')
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e, webSessionId)
       setError('Network Error')
       enqueueSnackbar('Network Error!', { variant: 'error' })
     } finally {

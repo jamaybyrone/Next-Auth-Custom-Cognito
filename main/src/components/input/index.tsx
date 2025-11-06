@@ -5,7 +5,7 @@ import { FormikProps } from 'formik'
 
 type InputProps<T extends object> = {
   label: string
-  id: keyof T & string
+  id: string
   type: string
   placeholder?: string
   required?: boolean
@@ -17,7 +17,6 @@ type InputProps<T extends object> = {
 export default function Input<T extends object>({
   formik,
   id,
-
   required,
   fullWidth,
   placeholder,
@@ -26,13 +25,16 @@ export default function Input<T extends object>({
   autoComplete
 }: Readonly<InputProps<T>>) {
   const hasError = formik.touched[id] && Boolean(formik.errors[id])
-
+  const helperText =
+    formik.touched[id] && formik.errors[id]
+      ? String(formik.errors[id])
+      : undefined
   return (
     <FormControl>
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <TextField
         error={hasError}
-        helperText={formik.touched[id] && formik.errors[id]}
+        helperText={helperText}
         name={id}
         placeholder={placeholder}
         type={type}

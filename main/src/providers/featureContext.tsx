@@ -1,7 +1,5 @@
 import { useContext, createContext, ReactNode, useMemo } from 'react'
 
-const FeatureContext = createContext('features')
-
 export interface FeatureType {
   gitHubEnabled: boolean
   googleEnabled: boolean
@@ -11,17 +9,23 @@ interface ProviderProps {
   children: ReactNode
   feature: FeatureType
 }
+
+const FeatureContext = createContext<FeatureType | undefined>(undefined)
+
 function FeatureProvider({ children, feature }: Readonly<ProviderProps>) {
   const value = useMemo(() => feature, [feature])
+
   return (
-    <FeatureContext.Provider value={value as string}>
-      {children}
-    </FeatureContext.Provider>
+    <FeatureContext.Provider value={value}>{children}</FeatureContext.Provider>
   )
 }
 
 function useFeatures(): FeatureType {
-  return useContext(FeatureContext) as unknown as FeatureType
+  const context = useContext(FeatureContext)
+  if (!context) {
+    throw new Error('useFeatures must be used within a FeatureProvider')
+  }
+  return context
 }
 
 export { FeatureProvider, useFeatures }

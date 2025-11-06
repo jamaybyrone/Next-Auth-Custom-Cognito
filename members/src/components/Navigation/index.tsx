@@ -82,7 +82,7 @@ export default function Navigation({ isLoggedIn }: Readonly<NavigaionProps>) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {!isLoggedIn && (
+                {isLoggedIn && (
                   <MenuItem>
                     <Link href={'/members/change-password'}>
                       Change password

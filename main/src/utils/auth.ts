@@ -80,6 +80,8 @@ export const customJWT = async ({ token, user, account }) => {
   const provider = account?.provider
   if (user) {
     let uid, name, email
+    // NOTE the below webSession is not accurate at this level
+    // Google and Github do CB's which wont be the initial user...
     const webSessionId = await getWebSession()
     if (provider !== 'credentials') {
       uid = createUIDForUser(user.email ?? user.username, provider)
@@ -109,8 +111,10 @@ export const customJWT = async ({ token, user, account }) => {
         webSessionId
       )
     }
-
-    await upsertUserSession(userRecord.id, webSessionId)
+    if (webSessionId) {
+      // could be a cb from GC or GH
+      await upsertUserSession(userRecord.id, webSessionId)
+    }
 
     token['id'] = userRecord.id
     token['fullName'] = user['fullName']

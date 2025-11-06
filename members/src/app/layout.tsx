@@ -10,6 +10,7 @@ import Navigation from '../components/Navigation'
 import { getWebSession } from '@/methods/getWebSession'
 import { checkSession } from '@/methods/db/checkSession'
 import { getServerSideSessionFromToken } from '@/methods/getServerSideSessionFromToken'
+import { SnackBar } from '@/components/SnackBar'
 
 export const metadata: Metadata = {
   metadataBase: new URL(HTTPS_WWW_MAIN_DOMAIN),
@@ -35,6 +36,7 @@ export default async function RootLayout({
           <Navigation isLoggedIn={!!session} />
           <main id={'mainContent'}>{children}</main>
           <Loader />
+          <SnackBar />
         </body>
       </html>
     </ThemeRegistry>

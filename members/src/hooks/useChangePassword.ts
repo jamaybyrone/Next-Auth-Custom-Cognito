@@ -4,6 +4,7 @@ import { useMemberStore } from '@/hooks/store/useMemberStore'
 import { useState } from 'react'
 import { changePasswordAction } from '@/app/actions/changePasswordAction'
 import Log from '@/utils/logger'
+import { useRouter } from 'next/navigation'
 
 const logger = new Log('useChangePassword')
 
@@ -15,6 +16,7 @@ export interface ChangePasswordParams {
 export function useChangePassword() {
   const { setLoading, webSessionId, enqueueSnackbar } = useMemberStore()
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   const changePassword = async ({
     existingPassword,
@@ -42,9 +44,10 @@ export function useChangePassword() {
         return
       }
 
-      enqueueSnackbar('Password changed successfully!, please sign in!', {
+      enqueueSnackbar('Password changed successfully!!', {
         variant: 'success'
       })
+      router.push('/')
     } catch (e) {
       logger.error(e, webSessionId)
       enqueueSnackbar('Network Error!', { variant: 'error' })

@@ -18,8 +18,8 @@ export const getUserFromUserTable = async (uid, sessionId):Promise<number | null
   const selectQuery = `
       SELECT id FROM users
       WHERE uuid = $1
-  ` // love a good soft delete
+  `
   const result = await DB.query(selectQuery, [uid], sessionId)
 
-  return result.rows[0].id
+  return result.rows[0]?.id ?? null
 }

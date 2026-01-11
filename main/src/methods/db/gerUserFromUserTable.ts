@@ -14,12 +14,12 @@ if (!DB) {
   DB = new DBController()
 }
 
-export const getUserFromUserTable = async (uid, sessionId) => {
+export const getUserFromUserTable = async (uid, sessionId):Promise<number | null>  => {
   const selectQuery = `
-      SELECT id FROM Users
-      WHERE UUID = $1
+      SELECT id FROM users
+      WHERE uuid = $1
   ` // love a good soft delete
   const result = await DB.query(selectQuery, [uid], sessionId)
 
-  return result.rows[0]
+  return result.rows[0].id
 }

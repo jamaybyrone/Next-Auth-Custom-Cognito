@@ -89,21 +89,21 @@ export const customJWT = async ({ token, user, account }) => {
       email = user['email'] ?? user['id']
     }
 
-    let userRecord = await getUserFromUserTable(uid ?? user.id, webSessionId)
-    if (!userRecord && provider !== 'credentials') {
+    let userId = await getUserFromUserTable(uid ?? user.id, webSessionId)
+    if (!userId && provider !== 'credentials') {
       // first time in from provider
-      userRecord = await addNewUserInUserTable(
+      userId = await addNewUserInUserTable(
         uid,
         email,
         name,
         provider,
         webSessionId
       )
-    } else if (!userRecord) {
+    } else if (!userId) {
       console.error(
         'A Cognito user has signed in.. but they didnt exist in the users table.. did someone skip sign up?'
       )
-      userRecord = await addNewUserInUserTable(
+      userId = await addNewUserInUserTable(
         user.id,
         'signup',
         'skipped',
@@ -113,10 +113,10 @@ export const customJWT = async ({ token, user, account }) => {
     }
     if (webSessionId) {
       // could be a cb from GC or GH
-      await upsertUserSession(userRecord.id, webSessionId)
+      await upsertUserSession(userId, webSessionId)
     }
 
-    token['id'] = userRecord.id
+    token['id'] = userId
     token['fullName'] = user['fullName']
     token['webSessionId'] = webSessionId
     token['provider'] = provider

@@ -18,9 +18,9 @@ export const checkSession = async (userId, webSessionId) => {
   let result = await DB.query(
     `
     SELECT id
-    FROM LoggedInHistory
-    WHERE SessionId = $1
-      AND DeletedAt IS NULL
+    FROM logged_in_history
+    WHERE session_id = $1
+      AND deleted_at IS NULL
   `,
     [webSessionId],
     webSessionId
@@ -29,7 +29,7 @@ export const checkSession = async (userId, webSessionId) => {
   if (!result.rows[0]) {
     result = await DB.query(
       `
-        INSERT INTO LoggedInHistory (UserId, SessionId)
+        INSERT INTO logged_in_history (user_id, session_id)
         VALUES ($1, $2) RETURNING *;
     `,
       [userId, webSessionId],

@@ -21,23 +21,23 @@ if (!DB) {
 export async function upsertUserSession(userId: number, webSessionId: string) {
   const query = `
     WITH existing AS (SELECT *
-                      FROM LoggedInHistory
-                      WHERE UserId = $1
-                        AND SessionId = $2
-                      ORDER BY CreatedAt DESC
+                      FROM logged_in_history
+                      WHERE user_id = $1
+                        AND session_id = $2
+                      ORDER BY created_at DESC
       LIMIT 1
       )
        , updated AS (
-    UPDATE LoggedInHistory
-    SET UpdatedAt = NOW()
-    WHERE UserId = $1
-      AND SessionId = $2
-      AND UpdatedAt
+    UPDATE logged_in_history
+    SET updated_at = NOW()
+    WHERE user_id = $1
+      AND session_id = $2
+      AND updated_at
         > NOW() - INTERVAL '1 day'
       RETURNING *
       )
     INSERT
-    INTO LoggedInHistory (UserId, SessionId)
+    INTO logged_in_history (user_id, session_id)
     SELECT $1,
            $2 WHERE NOT EXISTS (
       SELECT 1 FROM updated

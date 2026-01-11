@@ -19,10 +19,10 @@ export const addNewUserInUserTable = async (
   name,
   provider,
   webSessionId
-) => {
+):Promise<number> => {
   const insertQuery = `
-    INSERT INTO Users (UUID, Email, FullName,  Provider)
-    VALUES ($1, $2, $3, $4) RETURNING *;
+    INSERT INTO users (uuid, email, full_name,  provider)
+    VALUES ($1, $2, $3, $4) RETURNING id;
   `
   const result = await DB.query(
     insertQuery,

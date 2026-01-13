@@ -32,7 +32,7 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
         rememberMe: { label: 'Remember Me', type: 'checkbox' }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         return await customAuth(credentials)
       }
     })

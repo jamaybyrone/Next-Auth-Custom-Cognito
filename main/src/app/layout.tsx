@@ -1,13 +1,15 @@
 import ThemeRegistry from '@/theme/ThemeRegistry'
 
 import { ReactNode } from 'react'
-import Loader from '@/components/loader'
+import Loader from '../components/Loader'
 import { Metadata } from 'next'
 import { HTTPS_WWW_MAIN_DOMAIN } from '@/consts/url'
-
-import { getServerSession } from 'next-auth'
 import { showGitHub, showGoogle } from '@/flags'
-import Navigation, { UserType } from '@/components/navigation'
+import Navigation from '../components/Navigation'
+import { SnackBar } from '@/components/SnackBar'
+import { checkSession } from '@/methods/db/checkSession'
+import { getWebSession } from '@/methods/getWebSession'
+import { getServerSideSessionFromToken } from '@/methods/getServerSideSessionFromToken'
 
 export const metadata: Metadata = {
   metadataBase: new URL(HTTPS_WWW_MAIN_DOMAIN),
@@ -19,7 +21,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children
 }: Readonly<{ children: ReactNode }>) {
-  const session = await getServerSession()
+  const session = await getServerSideSessionFromToken()
+
+  if (session) {
+    // if there logged in check if the session exists in the historys table
+    const webSessionId = await getWebSession()
+    await checkSession(session.id, webSessionId)
+  }
 
   const enabledFeatures = {
     googleEnabled: await showGitHub(),
@@ -30,9 +38,10 @@ export default async function RootLayout({
     <ThemeRegistry features={enabledFeatures}>
       <html lang="en" style={{ height: '100%' }}>
         <body>
-          <Navigation session={session?.user as UserType} />
-          <main tabIndex={0}>{children}</main>
+          <Navigation isLoggedIn={!!session} />
+          <main>{children}</main>
           <Loader />
+          <SnackBar />
         </body>
       </html>
     </ThemeRegistry>

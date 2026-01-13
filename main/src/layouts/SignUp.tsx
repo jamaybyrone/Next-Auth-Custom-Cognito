@@ -9,7 +9,7 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import { useFormik } from 'formik'
-import Input from '@/components/input'
+import Input from '../components/Input'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import {
@@ -21,23 +21,23 @@ import {
   SignUpYupSchema
 } from '@/app/sign-up/data'
 
-import { SignUpParams, useAuthStore } from '@/methods/hooks/store/useAuthStore'
-import { useRouter } from 'next/navigation'
 import Alert from '@mui/material/Alert'
 import CloseIcon from '@mui/icons-material/Close'
-import Password from '@/components/password'
-import { useFeatures } from '@/methods/featureContext'
-import { styled } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
+import Password from '../components/Password'
+import { useFeatures } from '@/providers/featureContext'
+import Card from '@mui/material/Card'
 import { defaultCardStyle } from '@/consts/styles'
-
-const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
+import { SignUpParams, useSignUp } from '@/hooks/useSignUp'
+import { useSignInGoogle } from '@/hooks/useSignInGoogle'
+import { useSignInGitHub } from '@/hooks/useSignInGithub'
 
 export default function SignUp() {
-  const { signUp, signInGitHub, signInGoogle, error } = useAuthStore()
+  const { signUp, error } = useSignUp()
+  const { signInGoogle } = useSignInGoogle()
+  const { signInGitHub } = useSignInGitHub()
+
   const { googleEnabled, gitHubEnabled } = useFeatures()
-  const router = useRouter()
-  const handleSubmit = (values: SignUpParams) => signUp(values, router)
+  const handleSubmit = (values: SignUpParams) => signUp(values)
 
   const signUpFormik = useFormik({
     ...signUpFormikSchemaValues,
@@ -45,7 +45,7 @@ export default function SignUp() {
     onSubmit: handleSubmit
   })
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={defaultCardStyle}>
       <Typography
         component="h1"
         variant="h4"
@@ -67,11 +67,14 @@ export default function SignUp() {
         <Button type="submit" fullWidth variant="contained">
           Sign up
         </Button>
-        {error && (
-          <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
-            {error}
-          </Alert>
-        )}
+        <>
+          {' '}
+          {error && (
+            <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
+              {error}
+            </Alert>
+          )}
+        </>
         <Typography sx={{ textAlign: 'center' }}>
           Already have an account?{' '}
           <span>
@@ -82,35 +85,43 @@ export default function SignUp() {
         </Typography>
       </Box>
 
-      {(googleEnabled || gitHubEnabled) && (
-        <>
-          <Divider>
-            <Typography sx={{ color: 'text.secondary' }}>or</Typography>
-          </Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {googleEnabled && (
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={signInGoogle}
-                startIcon={<GoogleIcon />}
-              >
-                Sign up with Google
-              </Button>
-            )}
-            {gitHubEnabled && (
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={signInGitHub}
-                startIcon={<GitHubIcon />}
-              >
-                Sign up with Github
-              </Button>
-            )}
-          </Box>
-        </>
-      )}
+      <>
+        {(googleEnabled || gitHubEnabled) && (
+          <>
+            <Divider>
+              <Typography sx={{ color: 'text.secondary' }}>or</Typography>
+            </Divider>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <>
+                {' '}
+                {googleEnabled && (
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={signInGoogle}
+                    startIcon={<GoogleIcon />}
+                  >
+                    Sign up with Google
+                  </Button>
+                )}
+              </>
+              <>
+                {' '}
+                {gitHubEnabled && (
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={signInGitHub}
+                    startIcon={<GitHubIcon />}
+                  >
+                    Sign up with Github
+                  </Button>
+                )}
+              </>
+            </Box>
+          </>
+        )}
+      </>
     </Card>
   )
 }

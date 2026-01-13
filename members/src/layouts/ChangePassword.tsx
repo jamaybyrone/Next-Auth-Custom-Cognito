@@ -1,10 +1,5 @@
 'use client'
 
-import {
-  ChangePasswordParams,
-  useMemberStore
-} from '@/methods/hooks/store/useMemberStore'
-import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
 import {
   changePasswordFormikSchemaValues,
@@ -13,7 +8,7 @@ import {
   passwordConfirmationField,
   passwordField
 } from '@/app/change-password/data'
-import Password from '@/components/password'
+import Password from '../components/Password'
 import { styled } from '@mui/material/styles'
 
 import Box from '@mui/material/Box'
@@ -27,14 +22,17 @@ import CloseIcon from '@mui/icons-material/Close'
 import MuiCard from '@mui/material/Card'
 import { defaultCardStyle } from '@/consts/styles'
 
+import {
+  ChangePasswordParams,
+  useChangePassword
+} from '@/hooks/useChangePassword'
+
 const Card = styled(MuiCard)(({ theme }) => ({ ...defaultCardStyle(theme) }))
 
 const ChangePasswordLayout = () => {
-  const { changePassword, error } = useMemberStore()
+  const { changePassword, error } = useChangePassword()
 
-  const router = useRouter()
-  const handleSubmit = (values: ChangePasswordParams) =>
-    changePassword(values, router)
+  const handleSubmit = (values: ChangePasswordParams) => changePassword(values)
 
   const changePasswordFormik = useFormik({
     ...changePasswordFormikSchemaValues,
@@ -66,11 +64,13 @@ const ChangePasswordLayout = () => {
         <Button type="submit" fullWidth variant="contained">
           Change
         </Button>
-        {error && (
-          <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
-            {error}
-          </Alert>
-        )}
+        <>
+          {error && (
+            <Alert icon={<CloseIcon fontSize="inherit" />} severity="error">
+              {error}
+            </Alert>
+          )}
+        </>
       </Box>
     </Card>
   )

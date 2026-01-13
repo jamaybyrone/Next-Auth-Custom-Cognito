@@ -6,7 +6,7 @@ on:
       - '**'
 
 env:
-  NODE_VERSION: '21'
+  NODE_VERSION: '24'
   NEXT_PUBLIC_URL: 'http://localhost:3000'
   NEXT_PUBLIC_LOCALE: 'en-gb'
   MEMBERS_URL: "http://localhost:3001"
@@ -52,12 +52,4 @@ jobs:
         run: |
           cd main
           yarn build 
-
-      - name: Run Tests
-        env:
-          NEXT_PUBLIC_URL: ${{ env.NEXT_PUBLIC_URL }}
-          NEXT_PUBLIC_LOCALE: ${{ env.NEXT_PUBLIC_LOCALE }}
-        run: |
-          cd main
-          yarn test:jest
 

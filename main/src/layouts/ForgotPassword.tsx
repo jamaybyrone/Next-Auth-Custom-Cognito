@@ -8,33 +8,32 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
 import { useFormik } from 'formik'
-import Input from '@/components/input'
+import Input from '../components/Input'
 import {
   forgotEmailAddress,
   forgotPasswordFormikSchemaValues,
   forgotYupSchema
 } from '@/app/sign-in/data'
-import { useRouter } from 'next/navigation'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import { ForgotPasswordParams } from '@/methods/hooks/store/useAuthStore'
+
+import {
+  ForgotPasswordParams,
+  useForgotPassword
+} from '@/hooks/useForgotPasssword'
+import Box from '@mui/material/Box'
 
 interface ForgotPasswordProps {
   open: boolean
   handleClose: () => void
-  forgotPassword: (
-    values: ForgotPasswordParams,
-    router: AppRouterInstance
-  ) => void
 }
 
 export default function ForgotPassword({
   open,
-  handleClose,
-  forgotPassword
+  handleClose
 }: Readonly<ForgotPasswordProps>) {
-  const router = useRouter()
+  const { forgotPassword } = useForgotPassword()
+
   const handleSubmit = (values: ForgotPasswordParams) => {
-    forgotPassword(values, router)
+    forgotPassword(values)
     handleClose()
   }
   const forgotFormik = useFormik({
@@ -46,37 +45,41 @@ export default function ForgotPassword({
   })
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      PaperProps={{
-        component: 'form',
-        onSubmit: forgotFormik.handleSubmit,
-        noValidate: true
-      }}
-    >
-      <DialogTitle>Reset password</DialogTitle>
-      <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
+    <Dialog open={open} onClose={handleClose}>
+      <Box
+        component="form"
+        onSubmit={forgotFormik.handleSubmit}
+        noValidate
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
-        <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a
-          link to reset your password.
-        </DialogContentText>
-        <Input
-          {...forgotEmailAddress}
-          label={'Email address'}
-          formik={forgotFormik}
-        />
-      </DialogContent>
-      <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose} aria-label={'Cancel'}>
-          Cancel
-        </Button>
-        <Button variant="contained" type="submit">
-          Continue
-        </Button>
-      </DialogActions>
+        <DialogTitle>Reset password</DialogTitle>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            width: '100%'
+          }}
+        >
+          <DialogContentText>
+            Enter your account&apos;s email address, and we&apos;ll send you a
+            link to reset your password.
+          </DialogContentText>
+          <Input
+            {...forgotEmailAddress}
+            label={'Email address'}
+            formik={forgotFormik}
+          />
+        </DialogContent>
+        <DialogActions sx={{ pb: 3, px: 3 }}>
+          <Button onClick={handleClose} aria-label={'Cancel'}>
+            Cancel
+          </Button>
+          <Button variant="contained" type="submit">
+            Continue
+          </Button>
+        </DialogActions>
+      </Box>
     </Dialog>
   )
 }

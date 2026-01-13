@@ -1,9 +1,11 @@
-import { cookies } from 'next/headers'
-import { sessionCookie } from '@/consts/cookie'
-import Log from '@/methods/logger'
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 import { userPool } from '@/consts/userpool'
-import { checkIfFirstSignInFromProvider } from '@/methods/checkIfFirstSignInFromProvider'
+import { getWebSession } from '@/methods/getWebSession'
+import Log from '@/utils/logger'
+import { createUIDForUser } from '@/methods/createUIDForUser'
+import { upsertUserSession } from '@/methods/db/upsertUserSession'
+import { getUserFromUserTable } from '@/methods/db/gerUserFromUserTable'
+import { addNewUserInUserTable } from '@/methods/db/addNewUserInUserTable'
 
 interface UserSession {
   id: string
@@ -15,16 +17,16 @@ interface UserSession {
 }
 
 export const customAuth = async (credentials): Promise<UserSession> => {
-  const cookieStore = await cookies()
-  const { value: webSessionId } = cookieStore.get(sessionCookie)
-  const logger = new Log('NextAuth', webSessionId)
+  const webSessionId = await getWebSession()
+
+  const logger = new Log('NextAuth')
   const { emailAddress, password, rememberMe } = credentials
 
   if (!webSessionId) {
     console.error(
       'No web session found for: ' + emailAddress + ' rejecting auth'
     )
-    throw Error('No Session')
+    throw new Error('No Session')
   }
 
   const lowerCaseEmail = emailAddress.toLowerCase()
@@ -49,22 +51,24 @@ export const customAuth = async (credentials): Promise<UserSession> => {
           const cognitoId = deCodedToken.sub
 
           resolve({
-            id: webSessionId,
+            id: cognitoId,
             email: lowerCaseEmail,
-            username: cognitoId,
             maxAge: rememberMe === 'true' ? 30 * 24 * 60 * 60 : 24 * 60 * 60
           })
         },
         onFailure: (err) => {
           if (err.message === 'Password attempts exceeded') {
-            logger.warn(' password attempted exceeded for ' + lowerCaseEmail)
+            logger.warn(
+              ' password attempted exceeded for ' + lowerCaseEmail,
+              webSessionId
+            )
             // maybe notify the user that someone has attempted to possibly compromise?
             reject(new Error('PasswordExceeded'))
           }
           if (err.message === 'User is not confirmed.') {
             reject(new Error('UserNotConfirmed'))
           }
-          logger.error(err)
+          logger.error(err, webSessionId)
           reject(new Error('Network error'))
         }
       }
@@ -75,17 +79,48 @@ export const customAuth = async (credentials): Promise<UserSession> => {
 export const customJWT = async ({ token, user, account }) => {
   const provider = account?.provider
   if (user) {
-    let name, email
-    if (provider === 'github' || provider === 'google') {
+    let uid, name, email
+    // NOTE the below webSession is not accurate at this level
+    // Google and Github do CB's which wont be the initial user...
+    const webSessionId = await getWebSession()
+    if (provider !== 'credentials') {
+      uid = createUIDForUser(user.email ?? user.username, provider)
       name = user['name']
       email = user['email'] ?? user['id']
-      await checkIfFirstSignInFromProvider(user['id'], email, name, provider)
     }
 
-    token.sub = user.id
-    token['username'] = user['username']
-    token['maxAge'] = user['maxAge']
+    let userId = await getUserFromUserTable(uid ?? user.id, webSessionId)
+    if (!userId && provider !== 'credentials') {
+      // first time in from provider
+      userId = await addNewUserInUserTable(
+        uid,
+        email,
+        name,
+        provider,
+        webSessionId
+      )
+    } else if (!userId) {
+      console.error(
+        'A Cognito user has signed in.. but they didnt exist in the users table.. did someone skip sign up?'
+      )
+      userId = await addNewUserInUserTable(
+        user.id,
+        'signup',
+        'skipped',
+        'cognito',
+        webSessionId
+      )
+    }
+    if (webSessionId) {
+      // could be a cb from GC or GH
+      await upsertUserSession(userId, webSessionId)
+    }
+
+    token['id'] = userId
+    token['fullName'] = user['fullName']
+    token['webSessionId'] = webSessionId
     token['provider'] = provider
+    token['maxAge'] = user['maxAge']
   }
   return token
 }

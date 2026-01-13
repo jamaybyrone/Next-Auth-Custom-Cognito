@@ -62,6 +62,8 @@ export default function SignIn() {
   const signInFormik = useFormik({
     ...signInFormikSchemaValues(emailAddress),
     validationSchema: signInYupSchema,
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: handleSubmit
   })
 

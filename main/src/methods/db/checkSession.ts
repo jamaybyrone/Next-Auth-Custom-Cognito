@@ -13,7 +13,7 @@ if (!DB) {
   DB = new DBController()
 }
 export const checkSession = async (userId, webSessionId) => {
-  // somone could delete the web session cookie and refresh the page and still be logged in by keeping the next auth cookie.
+  // someone could delete the web session cookie and refresh the page and still be logged in by keeping the next auth cookie.
   // the middleware (proxy as its now called...) will regen a new session, but they need adding to the db
   let result = await DB.query(
     `

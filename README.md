@@ -1,9 +1,5 @@
 # Next Auth Custom Cognito Signin, with additional providers.
 
-## Demo
-
-[Demo](https://github.com/user-attachments/assets/6f930454-f99d-414c-a32a-a6910e524699)
-
 ## Prerequisites
 You will need to have an [Amazon Cognito Userpool](https://aws.amazon.com/pm/cognito/) and a [PostgreSQL](https://www.postgresql.org/download/) created prior to this.
 
